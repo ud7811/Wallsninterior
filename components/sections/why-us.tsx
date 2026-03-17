@@ -3,7 +3,7 @@ import { ShieldCheck, Palette, Wrench } from 'lucide-react'
 export function WhyUs() {
   const items = [
     { icon: Palette, title: "Custom Designs", text: "Tailored concepts that reflect your style and space." },
-    { icon: ShieldCheck, title: "Premium Materials", text: "We source high-quality finishes and durable wallpapers." },
+    { icon: ShieldCheck, title: "Premium Materials", text: "We source high-quality finishes and premium materials." },
     { icon: Wrench, title: "Expert Installation", text: "Experienced installers ensure a flawless finish." },
   ]
   return (

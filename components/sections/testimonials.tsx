@@ -15,7 +15,7 @@ export function Testimonials({ items = [] as Testimonial[] }) {
   const active = items[index] || {
     name: "Riya S.",
     rating: 5,
-    quote: "Beautiful designs and smooth execution. The wallpapers look incredible!",
+    quote: "Beautiful designs and smooth execution. The results look incredible!",
     location: "Noida",
   }
 

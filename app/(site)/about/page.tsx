@@ -9,7 +9,7 @@ export default function AboutPage() {
       <div className="container mx-auto px-4 space-y-6">
         <h1 className="font-serif text-3xl">About Wallsninterior</h1>
         <p className="text-muted-foreground max-w-2xl">
-          Wallsninterior is a premium interior design and wallpaper studio serving Noida, Greater Noida, and Ghaziabad.
+          Wallsninterior is a premium interior design studio serving Noida, Greater Noida, and Ghaziabad.
           Our philosophy blends warm minimalism with rich textures and timeless accents, delivering spaces that feel elegant and lived-in.
         </p>
       </div>

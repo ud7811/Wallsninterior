@@ -7,14 +7,13 @@ export default function Footer() {
         <div>
           <div className="font-serif text-xl mb-2">Wallsninterior</div>
           <p className="text-sm text-muted-foreground">
-            Premium interiors and designer wallpapers for elegant homes and offices in Noida, Greater Noida, and Ghaziabad.
+            Premium interior design for elegant homes and offices in Noida, Greater Noida, and Ghaziabad.
           </p>
         </div>
         <div>
           <div className="font-semibold mb-3">Quick Links</div>
           <ul className="grid gap-2 text-sm">
             <li><Link className="hover:underline" href="/services">Services</Link></li>
-            <li><Link className="hover:underline" href="/wallpapers">Wallpapers</Link></li>
             <li><Link className="hover:underline" href="/portfolio">Portfolio</Link></li>
             <li><Link className="hover:underline" href="/blog">Blog</Link></li>
             <li><Link className="hover:underline" href="/contact">Contact</Link></li>

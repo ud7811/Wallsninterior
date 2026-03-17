@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next"
 import { projects } from "@/data/projects"
-import { wallpapers } from "@/data/wallpapers"
 import { posts } from "@/data/posts"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -9,7 +8,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     { url: `${base}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },
     { url: `${base}/services`, lastModified: now },
-    { url: `${base}/wallpapers`, lastModified: now },
     { url: `${base}/portfolio`, lastModified: now },
     { url: `${base}/blog`, lastModified: now },
     { url: `${base}/about`, lastModified: now },
@@ -18,7 +16,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/areas/greater-noida`, lastModified: now },
     { url: `${base}/areas/ghaziabad`, lastModified: now },
     ...projects.map((p) => ({ url: `${base}/portfolio/${p.slug}`, lastModified: p.publishedAt || now })),
-    ...wallpapers.map((w) => ({ url: `${base}/wallpapers/${w.slug}`, lastModified: now })),
     ...posts.map((p) => ({ url: `${base}/blog/${p.slug}`, lastModified: p.publishedAt || now })),
   ]
 }

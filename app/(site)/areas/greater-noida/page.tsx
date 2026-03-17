@@ -10,7 +10,7 @@ export default function AreaGreaterNoida() {
       <div className="container mx-auto px-4 space-y-4">
         <h1 className="font-serif text-3xl">Interior Designer in Greater Noida</h1>
         <p className="text-muted-foreground max-w-2xl">
-          We serve Greater Noida&apos;s top residential and commercial neighborhoods with custom interior design and wallpaper installation.
+          We serve Greater Noida&apos;s top residential and commercial neighborhoods with custom interior design.
         </p>
       </div>
     </div>

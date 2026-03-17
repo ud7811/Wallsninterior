@@ -65,7 +65,6 @@ export default function ContactForm() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="Interior Design">Interior Design</SelectItem>
-            <SelectItem value="Designer Wallpapers">Designer Wallpapers</SelectItem>
             <SelectItem value="Renovation">Renovation</SelectItem>
             <SelectItem value="Consultation">Consultation</SelectItem>
           </SelectContent>

@@ -10,7 +10,7 @@ export default function AreaNoida() {
       <div className="container mx-auto px-4 space-y-4">
         <h1 className="font-serif text-3xl">Interior Designer in Noida</h1>
         <p className="text-muted-foreground max-w-2xl">
-          Wallsninterior provides full-service interior design and premium wallpapers across Noida. From Sector 18 to Sector 150, our team delivers warm, elegant spaces tailored to your lifestyle.
+          Wallsninterior provides full-service interior design across Noida. From Sector 18 to Sector 150, our team delivers warm, elegant spaces tailored to your lifestyle.
         </p>
       </div>
     </div>

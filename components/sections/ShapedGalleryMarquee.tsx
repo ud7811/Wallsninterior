@@ -53,7 +53,7 @@ const FALLBACK_UNSPLASH: Item[] = [
   },
   {
     src: "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?w=1600&q=70&auto=format&fit=crop",
-    alt: "Green textured feature wall (custom wallpaper look)",
+    alt: "Green textured feature wall",
   },
   {
     src: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1600&q=70&auto=format&fit=crop",
@@ -69,15 +69,15 @@ const FALLBACK_UNSPLASH: Item[] = [
   },
   {
     src: "https://images.unsplash.com/photo-1493666438910-6f37d2e8d4f1?w=1600&q=70&auto=format&fit=crop",
-    alt: "Botanical feature wall (custom wallpaper mood)",
+    alt: "Botanical feature wall",
   },
   {
     src: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=1600&q=70&auto=format&fit=crop",
-    alt: "Soft green wall close-up (wallpaper texture)",
+    alt: "Soft green wall close-up",
   },
   {
     src: "https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=1600&q=70&auto=format&fit=crop",
-    alt: "Geometric pattern detail (wallpaper idea)",
+    alt: "Geometric pattern detail",
   },
 ]
 
@@ -105,12 +105,10 @@ async function fetchSanityImages(): Promise<Item[] | null> {
     if (!pid || !ds) return null
     const v = "2023-10-10"
     const url = (q: string) => `https://${pid}.apicdn.sanity.io/v${v}/data/query/${ds}?query=${encodeURIComponent(q)}`
-    const q1 = `*[_type=="project" && defined(coverImage.asset->url)]|order(publishedAt desc)[0...18]{ "url": coverImage.asset->url }`
-    const q2 = `*[_type=="wallpaper" && defined(images[0].asset->url)]|order(_createdAt desc)[0...18]{ "url": images[0].asset->url }`
-    const [r1, r2] = await Promise.all([fetch(url(q1)), fetch(url(q2))])
+    const q1 = `*[_type=="project" && defined(coverImage.asset->url)]|order(publishedAt desc)[0...24]{ "url": coverImage.asset->url }`
+    const r1 = await fetch(url(q1))
     const d1 = (await r1.json())?.result?.map((x: any) => x.url) || []
-    const d2 = (await r2.json())?.result?.map((x: any) => x.url) || []
-    const urls = Array.from(new Set([...d1, ...d2])).slice(0, 24)
+    const urls = Array.from(new Set(d1)).slice(0, 24)
     if (!urls.length) return null
     return urls.map((u) => ({ src: u, alt: "Inspiration image" }))
   } catch {

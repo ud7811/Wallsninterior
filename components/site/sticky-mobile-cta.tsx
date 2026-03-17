@@ -5,7 +5,7 @@ import { Phone, MessageCircle, ClipboardList } from 'lucide-react'
 import { buildWhatsAppLink } from "@/lib/whatsapp"
 import { usePathname } from "next/navigation"
 
-const allowed = ["/", "/services", "/wallpapers", "/portfolio"]
+const allowed = ["/", "/services", "/portfolio"]
 
 export default function StickyMobileCTA() {
   const pathname = usePathname()

@@ -2,11 +2,11 @@ import type { Metadata } from "next"
 
 export const siteConfig = {
   name: "Wallsninterior",
-  description: "Premium interior design and designer wallpapers in Noida, Greater Noida, and Ghaziabad.",
+  description: "Premium interior design in Noida, Greater Noida, and Ghaziabad.",
   url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   ogImage: "/images/hero-1.png",
   twitter: "@urbanluxe",
-  defaultKeywords: ["interior design", "designer wallpapers", "Noida", "Greater Noida", "Ghaziabad", "premium interiors"],
+  defaultKeywords: ["interior design", "Noida", "Greater Noida", "Ghaziabad", "premium interiors"],
 }
 
 export function createSeo({

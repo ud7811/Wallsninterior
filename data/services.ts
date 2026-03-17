@@ -15,13 +15,6 @@ export const services: Service[] = [
     duration: "4–12 weeks",
   },
   {
-    slug: "designer-wallpapers",
-    title: "Designer Wallpapers",
-    excerpt: "Selection, supply, and installation of premium wallpapers.",
-    priceFrom: 120,
-    duration: "1–3 days",
-  },
-  {
     slug: "renovation",
     title: "Renovation",
     excerpt: "Space planning, upgrades, and turnkey makeovers.",
