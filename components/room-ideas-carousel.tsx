@@ -24,7 +24,7 @@ export function RoomIdeasCarousel({
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const [isIdle, setIsIdle] = useState(true)
-  const idleTimer = useRef<any>()
+  const idleTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   const scrollByCard = (dir: number) => {
     const el = ref.current

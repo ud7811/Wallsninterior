@@ -11,7 +11,7 @@ import { createSeo } from "@/lib/seo"
 import { Toaster } from "sonner"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
-const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" })
+const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-display", display: "swap" })
 
 export async function generateMetadata(): Promise<Metadata> {
   const base = createSeo()
@@ -29,7 +29,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <GA />
       <Header />
       <Toaster position="top-center" richColors closeButton />
-      <main>{children}</main>
+      <div id="main-content">{children}</div>
       <Footer />
       <BackToTop />
       <StickyMobileCTA />

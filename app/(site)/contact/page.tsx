@@ -3,7 +3,12 @@ import { createSeo } from "@/lib/seo"
 import ContactForm from "@/components/forms/contact-form"
 import { buildWhatsAppLink } from "@/lib/whatsapp"
 
-export const generateMetadata = async (): Promise<Metadata> => createSeo({ title: "Contact", path: "/contact" })
+export const generateMetadata = async (): Promise<Metadata> =>
+  createSeo({
+    title: "Contact Our Crossings Republik Studio",
+    description: "Visit or contact Walls N Interior in Crossings Republik, Ghaziabad for a home, office, or renovation consultation.",
+    path: "/contact",
+  })
 
 export default function ContactPage() {
   const whatsapp = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "917428095297"
@@ -23,7 +28,7 @@ export default function ContactPage() {
         <div className="card p-6">
           <div className="font-semibold mb-2">Studio</div>
           <p className="text-sm text-muted-foreground">
-            LGF-11, Avantika Retail Street, Crossing Republik, Gzb, 201016, UP, India
+            LGF-11, Avantika Retail Street, Crossings Republik, Ghaziabad, Uttar Pradesh 201016, India
           </p>
           <div className="mt-4 text-sm">
             <div><strong>Phone:</strong> <a className="underline" href="tel:+917428095297">+917428095297</a></div>

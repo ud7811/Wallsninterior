@@ -1,12 +1,15 @@
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
+import { siteConfig } from '@/config/site'
+import { organizationSchema, websiteSchema } from '@/lib/schema'
+import { StructuredData } from '@/components/seo/structured-data'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Wallsninterior',
-  description: 'Interior designing',
-  generator: 'v0.dev',
+  metadataBase: new URL(siteConfig.url),
+  title: siteConfig.name,
+  description: siteConfig.description,
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -39,7 +42,7 @@ html {
 }
         `}</style>
       </head>
-      <body>{children}</body>
+      <body><StructuredData data={[organizationSchema(), websiteSchema()]} />{children}</body>
     </html>
   )
 }

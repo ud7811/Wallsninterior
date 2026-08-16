@@ -1,61 +1,16 @@
-import { createSeo, localBusinessJsonLd } from "@/lib/seo"
-import { JsonLd } from "@/components/seo/jsonld"
-import { Hero } from "@/components/sections/hero"
-import { FeaturedProjectsGrid } from "@/components/sections/featured-projects"
-import { HomeRoomIdeas } from "@/components/sections/room-ideas"
-import { WhyUs } from "@/components/sections/why-us"
-import { Testimonials } from "@/components/sections/testimonials"
-import ShapedGalleryMarquee from "@/components/sections/ShapedGalleryMarquee"
-import EverythingInteriors from "@/components/sections/everything-interiors"
-import type { Metadata } from "next"
-
-export const generateMetadata = async (): Promise<Metadata> => {
-  return createSeo({
-    title: "Elegant Interiors",
-    path: "/",
-  })
-}
-
-export default function HomePage() {
-  // LocalBusiness JSON-LD
-  const jsonLd = localBusinessJsonLd({
-    brand: "Wallsninterior",
-    phone: "+917428095297",
-    email: "wallsninterior@gmail.com",
-    address: {
-      streetAddress: "LGF-11, Avantika Retail Street",
-      addressLocality: "ghaziabad",
-      postalCode: "201016",
-      addressRegion: "UP",
-      addressCountry: "IN",
-    },
-    cities: ["Noida", "Greater Noida", "Ghaziabad"],
-  })
-
- const inspirationItems = [
-  { src: "/images/walls/botanical_grandeur.JPG", alt: "Botanical Grandeur" },
-  { src: "/images/walls/caravan_to_the_fort.JPG", alt: "Caravan to the Fort" },
-  { src: "/images/walls/cow_painting.JPG", alt: "Cow Painting" },
-  { src: "/images/walls/desert_tone_panel_set.JPG", alt: "Desert Tone Panel Set" },
-  { src: "/images/walls/forest_vibe.JPG", alt: "Forest Vibe" },
-  { src: "/images/walls/kids_cosmic_explorer.JPG", alt: "Kids Cosmic Explorer" },
-  { src: "/images/walls/mistwood_deer.JPG", alt: "Mistwood Deer" },
-  { src: "/images/walls/peacock_stairs.JPG", alt: "Peacock Stairs" },
-  { src: "/images/walls/radha_krishna_darbar_panels.JPG", alt: "Radha Krishna Darbar Panels" },
-  { src: "/images/walls/royal-elephant_procession.JPG", alt: "Royal Elephant Procession" },
-  { src: "/images/walls/tropical_luxe.JPG", alt: "Tropical Luxe" },
-  { src: "/images/walls/trpoical_pastel.JPG", alt: "Tropical Pastel" },
-]
-  return (
-    <>
-      <JsonLd id="jsonld-localbusiness" data={jsonLd} />
-      <Hero />
-      <FeaturedProjectsGrid />
-      <HomeRoomIdeas />
-      <ShapedGalleryMarquee items={inspirationItems} />
-      <EverythingInteriors />
-      <WhyUs />
-      <Testimonials />
-    </>
-  )
-}
+import Link from "next/link"
+import { bhkConfigs } from "@/data/bhk"
+import { serviceConfigs } from "@/data/services-v2"
+import { buildMetadata } from "@/lib/seo-v2"
+import { formatRange } from "@/lib/format"
+import { localBusinessSchema } from "@/lib/schema"
+import { StructuredData } from "@/components/seo/structured-data"
+import { CtaBanner, PlaceholderImage } from "@/components/content/page-sections"
+export const metadata = buildMetadata({ seo: { title: "Interior Designers in Ghaziabad, Noida & Greater Noida", description: "Walls N Interior publishes clear home-interior price ranges for Ghaziabad, Noida and Greater Noida. Compare 2BHK, 3BHK and 4BHK options.", primaryKeyword: "interior designers in ghaziabad" }, path: "/" })
+export default function HomePage() { return <><StructuredData data={localBusinessSchema()} /><main>
+  <section className="home-hero"><div><p className="eyebrow">Ghaziabad · Noida · Greater Noida</p><h1>Beautiful interiors.<br />Prices you can see.</h1><p className="lead">Full-home design and execution with published indicative ranges, clear inclusions and an itemised path from measurement to handover.</p><div className="button-row"><Link className="button button-primary" href="#interiors">See home prices</Link><Link className="button button-secondary" href="/tools/cost-calculator">Estimate my cost</Link></div><div className="hero-proof"><span>Estimated prices shown before enquiry</span><span>One-tap WhatsApp</span></div></div><PlaceholderImage label="Real completed-home hero photograph required" /></section>
+  <section className="content-section" id="interiors"><div className="section-heading"><p className="eyebrow">Start with your floor plan</p><h2>Full-home interior price ranges</h2><p>Benchmark the whole project before comparing finishes and modules.</p></div><div className="bhk-grid">{bhkConfigs.map(item => <Link className="bhk-card" href={`/interiors/${item.slug}`} key={item.slug}><div><p className="eyebrow">{item.timeline.weeks.min}–{item.timeline.weeks.max} week plan</p><h3>{item.label}</h3><p>{item.bedrooms} bedrooms · {item.bathrooms} bathrooms</p></div><div><p className="tier-price">{formatRange(item.headlinePrice)}</p><p className="price-note">Indicative range</p></div><span className="text-link">Compare all three tiers →</span></Link>)}</div></section>
+  <section className="content-section tint"><div className="section-heading"><p className="eyebrow">Individual modules</p><h2>Build only what you need</h2></div><div className="card-grid">{serviceConfigs.map(item => <Link className="info-card link-card" href={`/services/${item.slug}`} key={item.slug}><h3>{item.name}</h3><p>{item.intro}</p><p className="tier-price">{formatRange(item.headlinePrice)}</p><span className="text-link">View scope →</span></Link>)}</div></section>
+  <section className="content-section split"><div><p className="eyebrow">Why this site is different</p><h2>No quote wall between you and the price</h2><p className="lead">Most interior firms make you surrender your phone number before showing a number. Here, the estimate comes first. You contact us only when the scope makes sense.</p><Link className="button button-primary" href="/cost">Browse cost guides</Link></div><div className="principles"><article><strong>01</strong><h3>Published ranges</h3><p>See a realistic starting point before a sales conversation.</p></article><article><strong>02</strong><h3>Clear exclusions</h3><p>Understand what is outside each package and avoid surprise add-ons.</p></article><article><strong>03</strong><h3>Local coordination</h3><p>Meet at our Crossings Republik studio and plan around your actual site.</p></article></div></section>
+  <CtaBanner heading="Send your floor plan. Get a clearer number." subheading="No obligation and no hidden estimate gate." />
+  </main></> }

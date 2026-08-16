@@ -108,7 +108,7 @@ async function fetchSanityImages(): Promise<Item[] | null> {
     const q1 = `*[_type=="project" && defined(coverImage.asset->url)]|order(publishedAt desc)[0...24]{ "url": coverImage.asset->url }`
     const r1 = await fetch(url(q1))
     const d1 = (await r1.json())?.result?.map((x: any) => x.url) || []
-    const urls = Array.from(new Set(d1)).slice(0, 24)
+    const urls = Array.from(new Set<string>(d1)).slice(0, 24)
     if (!urls.length) return null
     return urls.map((u) => ({ src: u, alt: "Inspiration image" }))
   } catch {

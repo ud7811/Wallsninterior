@@ -1,18 +1,20 @@
 import type { Metadata } from "next"
 import { createSeo } from "@/lib/seo"
+import { LocalAreaPage } from "@/components/site/local-area-page"
 
 export const generateMetadata = async (): Promise<Metadata> =>
-  createSeo({ title: "Interior Designer in Ghaziabad", path: "/areas/ghaziabad" })
+  createSeo({
+    title: "Interior Designer in Ghaziabad",
+    description: "Home, office, and renovation interior design in Ghaziabad from Walls N Interior's Crossings Republik studio.",
+    path: "/areas/ghaziabad",
+  })
 
 export default function AreaGhaziabad() {
   return (
-    <div className="section">
-      <div className="container mx-auto px-4 space-y-4">
-        <h1 className="font-serif text-3xl">Interior Designer in Ghaziabad</h1>
-        <p className="text-muted-foreground max-w-2xl">
-          Premium interior design for modern homes and offices across Ghaziabad.
-        </p>
-      </div>
-    </div>
+    <LocalAreaPage
+      area="Ghaziabad"
+      intro="Create a home or workplace that feels considered, comfortable, and distinctly yours. We plan residential and commercial interiors across Ghaziabad from concept through execution."
+      localNote="Based in Crossings Republik, we can discuss your project in person and understand the site before finalising the design direction."
+    />
   )
 }

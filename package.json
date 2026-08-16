@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "verify": "pnpm typecheck && NEXT_PUBLIC_SITE_URL=https://wallsninterior.com next build",
     "start": "next start"
   },
   "dependencies": {

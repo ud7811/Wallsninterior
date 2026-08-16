@@ -1,0 +1,4 @@
+import { buildMetadata } from "@/lib/seo-v2"
+import CostCalculator from "@/components/convert/cost-calculator"
+export const metadata = buildMetadata({ seo: { title: "Interior Cost Calculator Ghaziabad | Wallsninterior", description: "Estimate your 2BHK, 3BHK or 4BHK interior cost using carpet area, scope and finish level. See the indicative range before sharing contact details.", primaryKeyword: "interior cost calculator ghaziabad" }, path: "/tools/cost-calculator" })
+export default function CalculatorPage() { return <main><section className="editorial-hero"><p className="eyebrow">Estimate first. Contact later.</p><h1>Interior cost calculator</h1><p className="lead">Adjust the property, carpet area, scope and finish. The result appears immediately—no phone-number gate.</p></section><section className="content-section"><CostCalculator /></section></main> }

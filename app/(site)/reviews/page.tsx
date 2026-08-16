@@ -1,0 +1,3 @@
+import { buildMetadata } from "@/lib/seo-v2"
+export const metadata = buildMetadata({ seo: { title: "Client Reviews | Wallsninterior", description: "Verified client reviews for Walls N Interior will appear here once the Google Business Profile Place ID or permissioned direct testimonials are supplied.", primaryKeyword: "walls n interior reviews" }, path: "/reviews", noindex: true })
+export default function ReviewsPage(){return <main><section className="editorial-hero"><p className="eyebrow">Verified reviews only</p><h1>Client reviews</h1><p className="lead">We will not invent testimonials or copy ratings into schema without verification. Connect the Google Place ID to publish the live review feed here.</p></section></main>}

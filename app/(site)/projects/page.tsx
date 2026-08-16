@@ -1,0 +1,4 @@
+import { buildMetadata } from "@/lib/seo-v2"
+import { PlaceholderImage } from "@/components/content/page-sections"
+export const metadata = buildMetadata({ seo: { title: "Interior Design Projects | Wallsninterior", description: "Real Walls N Interior project case studies will appear here with location, carpet area, scope, budget band, materials and permissioned photography.", primaryKeyword: "interior design projects ghaziabad" }, path: "/projects", noindex: true })
+export default function ProjectsPage(){return <main><section className="editorial-hero"><p className="eyebrow">No stock portfolio</p><h1>Real project case studies</h1><p className="lead">The fabricated starter projects have been removed. This page stays outside search until real photos, locations, scope and budget bands are supplied with permission.</p></section><section className="content-section"><PlaceholderImage label="Completed project photography and details required" /></section></main>}

@@ -1,12 +1,20 @@
 import type { Metadata } from "next"
 
 export const siteConfig = {
-  name: "Wallsninterior",
-  description: "Premium interior design in Noida, Greater Noida, and Ghaziabad.",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  name: "Walls N Interior",
+  description:
+    "Interior design studio in Crossings Republik, Ghaziabad for elegant homes, offices, renovations, and turnkey interiors.",
+  url: (process.env.NEXT_PUBLIC_SITE_URL || "https://wallsninterior.com").replace(/\/$/, ""),
   ogImage: "/images/hero-1.png",
-  twitter: "@urbanluxe",
-  defaultKeywords: ["interior design", "Noida", "Greater Noida", "Ghaziabad", "premium interiors"],
+  defaultKeywords: [
+    "interior designer in Ghaziabad",
+    "interior designer in Crossings Republik",
+    "home interior design",
+    "office interior design",
+    "renovation",
+    "Noida",
+    "Greater Noida",
+  ],
 }
 
 export function createSeo({
@@ -44,7 +52,6 @@ export function createSeo({
       title: fullTitle,
       description: description || siteConfig.description,
       images: imgList,
-      creator: siteConfig.twitter,
     },
   }
 }
@@ -64,17 +71,39 @@ export function localBusinessJsonLd({
 }) {
   return {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
+    "@type": ["LocalBusiness", "HomeAndConstructionBusiness"],
+    "@id": `${siteConfig.url}/#business`,
     name: brand,
     url: siteConfig.url,
     image: new URL(siteConfig.ogImage, siteConfig.url).toString(),
+    logo: new URL("/logo.png", siteConfig.url).toString(),
+    description: siteConfig.description,
     telephone: phone,
     email,
+    priceRange: "₹₹",
     address: {
       "@type": "PostalAddress",
       ...address,
     },
-    areaServed: cities.map((c) => ({ "@type": "City", name: c })),
+    areaServed: cities.map((c) => ({ "@type": "Place", name: c })),
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        opens: "09:00",
+        closes: "22:00",
+      },
+    ],
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Interior design services",
+      itemListElement: ["Home interior design", "Office interior design", "Renovation", "Turnkey interiors"].map(
+        (name) => ({
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name },
+        }),
+      ),
+    },
   }
 }
 

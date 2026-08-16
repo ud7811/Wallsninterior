@@ -1,21 +1,14 @@
 import type { MetadataRoute } from "next"
-import { projects } from "@/data/projects"
-import { posts } from "@/data/posts"
-
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-  const now = new Date().toISOString()
+import { siteConfig } from "@/config/site"
+import { bhkConfigs } from "@/data/bhk"
+import { serviceConfigs } from "@/data/services-v2"
+import { costPages } from "@/data/costPages"
+export default function sitemap(): MetadataRoute.Sitemap {
+  const now = new Date(); const fixed = ["", "/services", "/cost", "/tools/cost-calculator", "/areas/ghaziabad", "/areas/greater-noida", "/areas/noida", "/areas/crossings-republik", "/about", "/contact", "/process"]
   return [
-    { url: `${base}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },
-    { url: `${base}/services`, lastModified: now },
-    { url: `${base}/portfolio`, lastModified: now },
-    { url: `${base}/blog`, lastModified: now },
-    { url: `${base}/about`, lastModified: now },
-    { url: `${base}/contact`, lastModified: now },
-    { url: `${base}/areas/noida`, lastModified: now },
-    { url: `${base}/areas/greater-noida`, lastModified: now },
-    { url: `${base}/areas/ghaziabad`, lastModified: now },
-    ...projects.map((p) => ({ url: `${base}/portfolio/${p.slug}`, lastModified: p.publishedAt || now })),
-    ...posts.map((p) => ({ url: `${base}/blog/${p.slug}`, lastModified: p.publishedAt || now })),
+    ...fixed.map((path, i) => ({ url: `${siteConfig.url}${path || "/"}`, lastModified: now, changeFrequency: "monthly" as const, priority: i === 0 ? 1 : .6 })),
+    ...bhkConfigs.map(item => ({ url: `${siteConfig.url}/interiors/${item.slug}`, lastModified: now, changeFrequency: "monthly" as const, priority: .9 })),
+    ...serviceConfigs.map(item => ({ url: `${siteConfig.url}/services/${item.slug}`, lastModified: now, changeFrequency: "monthly" as const, priority: .8 })),
+    ...costPages.map(item => ({ url: `${siteConfig.url}/cost/${item.slug}`, lastModified: now, changeFrequency: "monthly" as const, priority: .9 })),
   ]
 }

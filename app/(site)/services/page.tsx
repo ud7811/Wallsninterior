@@ -1,33 +1,6 @@
-import type { Metadata } from "next"
-import { createSeo } from "@/lib/seo"
-import { services } from "@/data/services"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import Link from "next/link"
-
-export const generateMetadata = async (): Promise<Metadata> => createSeo({ title: "Services", path: "/services" })
-
-export default async function ServicesPage() {
-  return (
-    <div className="section">
-      <div className="container mx-auto px-4">
-        <h1 className="font-serif text-3xl mb-6">Services</h1>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {services.map((s) => (
-            <div key={s.slug} className="card p-6 space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="font-semibold">{s.title}</div>
-                {s.priceFrom ? <Badge variant="secondary">From ₹{s.priceFrom}</Badge> : null}
-              </div>
-              <p className="text-sm text-muted-foreground">{s.excerpt}</p>
-              <div className="text-xs text-muted-foreground">{s.duration ? `Typical duration: ${s.duration}` : ""}</div>
-              <Link href="/contact">
-                <Button className="btn-gold-hover">Get a quote</Button>
-              </Link>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
+import { serviceConfigs } from "@/data/services-v2"
+import { buildMetadata } from "@/lib/seo-v2"
+import { formatRange } from "@/lib/format"
+export const metadata = buildMetadata({ seo: { title: "Interior Design Services in Ghaziabad | Wallsninterior", description: "Explore modular kitchens, wardrobes, TV units and false ceilings in Ghaziabad and Noida with transparent indicative pricing and clear specifications.", primaryKeyword: "interior design services ghaziabad" }, path: "/services" })
+export default function ServicesPage() { return <main><section className="editorial-hero"><p className="eyebrow">Designed around real use</p><h1>Interior design services</h1><p className="lead">Start with one module or coordinate a complete home. Every service shows its indicative price before you enquire.</p></section><section className="content-section card-grid">{serviceConfigs.map(item => <Link className="info-card link-card" href={`/services/${item.slug}`} key={item.slug}><p className="eyebrow">{item.category}</p><h2>{item.name}</h2><p>{item.intro}</p><p className="tier-price">{formatRange(item.headlinePrice)} <small>{item.headlinePrice.unit !== "total" ? item.headlinePrice.unit.replace("per_", "/") : ""}</small></p><span className="text-link">See materials and scope →</span></Link>)}</section></main> }

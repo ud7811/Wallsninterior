@@ -9,10 +9,10 @@ export function Hero() {
       <div className="container mx-auto grid md:grid-cols-2 gap-8 items-center px-4">
         <div className="space-y-6">
           <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl">
-            Transform Your Space with Elegant Interiors
+            Interior Designer in Ghaziabad &amp; Crossings Republik
           </h1>
           <p className="text-muted-foreground max-w-xl">
-            Premium, warm, and trustworthy design services tailored to your lifestyle. Serving Noida, Greater Noida, and Ghaziabad.
+            Thoughtful home, office, and renovation solutions shaped around your space, style, and budget. Visit our Crossings Republik studio or book a consultation across Ghaziabad, Noida, and Greater Noida.
           </p>
           <div className="flex gap-3">
             <Link href="/services">
@@ -26,7 +26,7 @@ export function Hero() {
         <div className="relative w-full h-[320px] sm:h-[420px] md:h-[520px] rounded-xl overflow-hidden">
           <Image
             src="/images/hero-1.png"
-            alt="Elegant interior design"
+            alt="Elegant living room interior designed by Walls N Interior"
             fill
             className="object-cover"
             priority

@@ -1,44 +1,4 @@
 import Link from "next/link"
-
-export default function Footer() {
-  return (
-    <footer className="border-t mt-12">
-      <div className="container mx-auto px-4 py-10 grid gap-8 md:grid-cols-4">
-        <div>
-          <div className="font-serif text-xl mb-2">Wallsninterior</div>
-          <p className="text-sm text-muted-foreground">
-            Premium interior design for elegant homes and offices in Noida, Greater Noida, and Ghaziabad.
-          </p>
-        </div>
-        <div>
-          <div className="font-semibold mb-3">Quick Links</div>
-          <ul className="grid gap-2 text-sm">
-            <li><Link className="hover:underline" href="/services">Services</Link></li>
-            <li><Link className="hover:underline" href="/portfolio">Portfolio</Link></li>
-            <li><Link className="hover:underline" href="/blog">Blog</Link></li>
-            <li><Link className="hover:underline" href="/contact">Contact</Link></li>
-          </ul>
-        </div>
-        <div>
-          <div className="font-semibold mb-3">Service Areas</div>
-          <ul className="grid gap-2 text-sm">
-            <li><Link className="hover:underline" href="/areas/noida">Noida</Link></li>
-            <li><Link className="hover:underline" href="/areas/greater-noida">Greater Noida</Link></li>
-            <li><Link className="hover:underline" href="/areas/ghaziabad">Ghaziabad</Link></li>
-          </ul>
-        </div>
-        <div>
-          <div className="font-semibold mb-3">Contact</div>
-          <ul className="grid gap-2 text-sm">
-            <li><a className="hover:underline" href="tel:+917428095297">+91 7428095297</a></li>
-            <li><a className="hover:underline" href="mailto:wallsninterior@gmail.com">wallsninterior@gmail.com</a></li>
-            <li className="text-muted-foreground">Mon-Sun 09:00 a.m – 10:00 p.m</li>
-          </ul>
-        </div>
-      </div>
-      <div className="border-t py-4 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Wallsninterior. All rights reserved.
-      </div>
-    </footer>
-  )
-}
+import { fullAddress, siteConfig } from "@/config/site"
+import { serviceConfigs } from "@/data/services-v2"
+export default function Footer() { return <footer className="site-footer"><div className="footer-shell"><div className="footer-intro"><div className="footer-company"><Link className="footer-wordmark" href="/">{siteConfig.name}</Link><p>{siteConfig.description}</p></div><div className="footer-address"><h2>Studio &amp; hours</h2><address>{fullAddress}, India</address><p>Open daily · 9:00 AM–10:00 PM</p></div></div><div className="footer-grid"><div><h2>Popular services</h2>{serviceConfigs.map(s => <Link href={`/services/${s.slug}`} key={s.slug}>{s.name}</Link>)}</div><div><h2>Price guides</h2><Link href="/interiors/2bhk-flat-interior-design">2 BHK interiors</Link><Link href="/interiors/3bhk-flat-interior-design">3 BHK interiors</Link><Link href="/interiors/4bhk-flat-interior-design">4 BHK interiors</Link><Link href="/tools/cost-calculator">Cost calculator</Link></div><div><h2>Contact</h2><a href={`tel:${siteConfig.phone}`}>{siteConfig.phoneDisplay}</a><a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a><Link href="/warranty">Warranty</Link></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} {siteConfig.name}</span><span>Ghaziabad · Noida · Greater Noida</span></div></div></footer> }
