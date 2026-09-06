@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Analytics } from '@vercel/analytics/next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import { siteConfig } from '@/config/site'
@@ -48,7 +49,11 @@ html {
 }
         `}</style>
       </head>
-      <body><StructuredData data={[organizationSchema(), websiteSchema()]} />{children}</body>
+      <body>
+        <StructuredData data={[organizationSchema(), websiteSchema()]} />
+        {children}
+        <Analytics />
+      </body>
     </html>
   )
 }

@@ -14,7 +14,9 @@ function SubmitBtn({ pending }: { pending: boolean }) {
   return <Button disabled={pending}>{pending ? "Sending..." : "Send"}</Button>
 }
 
-export default function ContactForm() {
+type InitialInterest = { flatType: string; tier: string; priceRange: string }
+
+export default function ContactForm({ initialInterest }: { initialInterest?: InitialInterest }) {
   const [state, formAction, pending] = useActionState(
     async (_prev: any, formData: FormData) => {
       const payload = {
@@ -23,6 +25,9 @@ export default function ContactForm() {
         city: String(formData.get("city") || ""),
         service: String(formData.get("service") || ""),
         message: String(formData.get("message") || ""),
+        flatType: String(formData.get("flatType") || ""),
+        tier: String(formData.get("tier") || ""),
+        priceRange: String(formData.get("priceRange") || ""),
       }
       const res = await sendContact(payload)
       return res
@@ -39,6 +44,10 @@ export default function ContactForm() {
 
   return (
     <form action={formAction} className="grid gap-4 max-w-xl">
+      {initialInterest?.flatType && initialInterest?.tier && <div className="interest-summary"><p className="eyebrow">Your selected interest</p><strong>{initialInterest.flatType} · {initialInterest.tier}</strong>{initialInterest.priceRange && <span>Indicative range: {initialInterest.priceRange}</span>}<small>This selection will be included in your enquiry email.</small></div>}
+      <input type="hidden" name="flatType" value={initialInterest?.flatType ?? ""} />
+      <input type="hidden" name="tier" value={initialInterest?.tier ?? ""} />
+      <input type="hidden" name="priceRange" value={initialInterest?.priceRange ?? ""} />
       <div className="grid gap-2">
         <label htmlFor="name" className="text-sm font-medium">
           Name

@@ -10,7 +10,11 @@ export const generateMetadata = async (): Promise<Metadata> =>
     path: "/contact",
   })
 
-export default function ContactPage() {
+function firstParam(value: string | string[] | undefined) { return Array.isArray(value) ? value[0] ?? "" : value ?? "" }
+
+export default async function ContactPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const params = await searchParams
+  const interest = { flatType: firstParam(params.flat), tier: firstParam(params.tier), priceRange: firstParam(params.range) }
   const whatsapp = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "917428095297"
   const wa = buildWhatsAppLink({ number: whatsapp, text: "Hi Walls N Interior, I'd like a design consultation" })
 
@@ -23,7 +27,7 @@ export default function ContactPage() {
           <div className="text-sm mb-4">
             <a className="underline" href={wa} target="_blank" rel="noopener noreferrer">WhatsApp us</a>
           </div>
-          <ContactForm />
+          <ContactForm initialInterest={interest} />
         </div>
         <div className="card p-6">
           <div className="font-semibold mb-2">Studio</div>

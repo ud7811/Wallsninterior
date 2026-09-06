@@ -6,14 +6,14 @@ export function PriceHero({ range, label }: { range: PriceRange; label: string }
   return <div className="price-hero"><p className="eyebrow">{label}</p><p className="price-display">{formatRange(range)}</p><p className="price-unit">{formatUnit(range.unit)}</p>{!range.verified && <p className="price-note">Indicative market range — confirm on consultation</p>}</div>
 }
 
-export function PriceTierCards({ tiers }: { tiers: PriceTier[] }) {
+export function PriceTierCards({ tiers, flatLabel }: { tiers: PriceTier[]; flatLabel: string }) {
   const ordered = [tiers[1], tiers[0], tiers[2]].filter(Boolean)
   return <div className="tier-grid">{ordered.map(tier => <article className={`tier-card ${tier.name === "Comfort" ? "tier-featured" : ""}`} key={tier.name}>
     {tier.name === "Comfort" && <span className="badge">Most popular</span>}<h3>{tier.name}</h3><p className="muted">{tier.tagline}</p><p className="tier-price">{formatRange(tier.range)}</p><p className="small">Best for: {tier.bestFor}</p>
     <h4>Included</h4><ul className="check-list">{tier.includes.map(i => <li key={i}>✓ {i}</li>)}</ul>
     <h4>Not included</h4><ul className="exclude-list">{tier.excludes.map(i => <li key={i}>× {i}</li>)}</ul>
     <p className="small"><strong>Materials:</strong> {tier.materials.ply} · {tier.materials.finish} · {tier.materials.hardware}</p>
-    <Link className="button button-secondary" href="/contact">Discuss this tier</Link>
+    <Link className="button button-secondary" href={{ pathname: "/contact", query: { flat: flatLabel, tier: tier.name, range: formatRange(tier.range) } }}>Discuss this tier</Link>
   </article>)}</div>
 }
 
