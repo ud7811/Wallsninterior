@@ -9,6 +9,9 @@ export const siteConfig = {
   defaultKeywords: [
     "interior designer in Ghaziabad",
     "interior designer in Crossings Republik",
+    "interior designer near me",
+    "interior decorators near me",
+    "turnkey interior designer",
     "home interior design",
     "office interior design",
     "renovation",

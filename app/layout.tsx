@@ -8,8 +8,14 @@ import './globals.css'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
-  title: siteConfig.name,
+  applicationName: siteConfig.name,
+  title: "Interior Designers in Ghaziabad, Noida & Greater Noida | Walls N Interior",
   description: siteConfig.description,
+  category: "Interior Design",
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  other: { "geo.region": "IN-UP", "geo.placename": "Crossings Republik, Ghaziabad" },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -32,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en-IN">
       <head>
         <style>{`
 html {

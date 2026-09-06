@@ -1,5 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { StructuredData } from "@/components/seo/structured-data"
+import { breadcrumbsSchema, localBusinessSchema } from "@/lib/schema"
 
 type LocalAreaPageProps = {
   area: string
@@ -23,8 +25,9 @@ const services = [
 ]
 
 export function LocalAreaPage({ area, intro, localNote }: LocalAreaPageProps) {
+  const crumbs = [{ label: "Home", href: "/" }, { label: "Service areas" }, { label: area }]
   return (
-    <main>
+    <><StructuredData data={[localBusinessSchema([area]), breadcrumbsSchema(crumbs)]} /><main>
       <section className="section">
         <div className="container mx-auto px-4 grid gap-8 lg:grid-cols-[1.4fr_0.6fr] lg:items-start">
           <div className="space-y-5">
@@ -78,6 +81,6 @@ export function LocalAreaPage({ area, intro, localNote }: LocalAreaPageProps) {
           </div>
         </div>
       </section>
-    </main>
+    </main></>
   )
 }

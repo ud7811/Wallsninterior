@@ -1,5 +1,8 @@
 import Link from "next/link"
 import { LayoutImagePreview } from "@/components/content/layout-image-preview"
+import { buildMetadata } from "@/lib/seo-v2"
+
+export const metadata = buildMetadata({ seo: { title: "Contemporary Family Home Interior Project", description: "Explore 36 photographs from a completed contemporary family-home interior by Walls N Interior, including living, kitchen and three bedrooms.", primaryKeyword: "completed home interior project ghaziabad" }, path: "/projects/contemporary-family-home" })
 
 const portraitImages = new Set([1, 10, 29])
 const groups = [
