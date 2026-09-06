@@ -28,6 +28,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className={`${inter.variable} ${playfair.variable}`} style={{ fontFamily: "var(--font-inter)" }}>
       <GA />
+      <AnalyticsEvents />
       <Header />
       <Toaster position="top-center" richColors closeButton />
       <div id="main-content">{children}</div>
