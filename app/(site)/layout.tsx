@@ -1,6 +1,7 @@
 import type React from "react"
 import "../../styles/theme.css"
 import { GA } from "@/lib/ga"
+import AnalyticsEvents from "@/components/analytics/analytics-events"
 import Header from "@/components/site/header"
 import Footer from "@/components/site/footer"
 import StickyMobileCTA from "@/components/site/sticky-mobile-cta"
