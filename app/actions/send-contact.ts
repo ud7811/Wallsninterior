@@ -2,6 +2,22 @@
 
 import { Resend } from "resend"
 
+function getResendConfig() {
+  const apiKey = process.env.RESEND_API_KEY
+  const to = process.env.CONTACT_TO_EMAIL || "wallsninterior@gmail.com"
+  const from = process.env.RESEND_FROM_EMAIL
+
+  if (!apiKey) {
+    throw new Error("RESEND_API_KEY is not set")
+  }
+
+  if (!from) {
+    throw new Error("RESEND_FROM_EMAIL is not set")
+  }
+
+  return { apiKey, to, from }
+}
+
 export type ContactPayload = {
   name: string
   phone: string
@@ -16,9 +32,8 @@ export type ContactPayload = {
 export async function sendContact(payload: ContactPayload) {
   try {
     const escapeHtml = (value: string | undefined) => (value ?? "").replace(/[&<>'"]/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[char] ?? char)
-    const resend = new Resend(process.env.RESEND_API_KEY)
-    const to = process.env.CONTACT_TO_EMAIL || "wallsninterior@gmail.com"
-    const from = process.env.RESEND_FROM_EMAIL || "Studio <no-reply@your-domain.example>"
+    const { apiKey, to, from } = getResendConfig()
+    const resend = new Resend(apiKey)
     const interestLabel = payload.flatType && payload.tier ? `${payload.flatType} ${payload.tier} tier` : payload.service
     const subject = `New ${interestLabel} enquiry from ${payload.name} (${payload.city})`
 
@@ -37,5 +52,27 @@ export async function sendContact(payload: ContactPayload) {
   } catch (e: any) {
     console.error("sendContact error", e)
     return { ok: false, error: e?.message || "Failed to send" }
+  }
+}
+
+export function getEmailHealth() {
+  try {
+    const { to, from } = getResendConfig()
+    const fromDomain = from.split("<").pop()?.replace(">", "").trim().split("@").pop() ?? ""
+
+    return {
+      ok: true,
+      configured: {
+        resendApiKey: true,
+        resendFromEmail: from,
+        contactToEmail: to,
+      },
+      notes: fromDomain ? [`Sending from domain: ${fromDomain}`] : [],
+    }
+  } catch (e: any) {
+    return {
+      ok: false,
+      error: e?.message || "Email configuration is invalid",
+    }
   }
 }
