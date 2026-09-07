@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { getEmailHealth } from "@/app/actions/send-contact"
+import { getEmailHealth } from "@/lib/email"
 
 export async function GET() {
   return NextResponse.json(getEmailHealth(), {

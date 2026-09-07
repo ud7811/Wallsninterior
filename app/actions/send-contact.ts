@@ -1,22 +1,7 @@
 "use server"
 
 import { Resend } from "resend"
-
-function getResendConfig() {
-  const apiKey = process.env.RESEND_API_KEY
-  const to = process.env.CONTACT_TO_EMAIL || "wallsninterior@gmail.com"
-  const from = process.env.RESEND_FROM_EMAIL
-
-  if (!apiKey) {
-    throw new Error("RESEND_API_KEY is not set")
-  }
-
-  if (!from) {
-    throw new Error("RESEND_FROM_EMAIL is not set")
-  }
-
-  return { apiKey, to, from }
-}
+import { getResendConfig, getEmailHealth } from "@/lib/email"
 
 export type ContactPayload = {
   name: string
@@ -52,27 +37,5 @@ export async function sendContact(payload: ContactPayload) {
   } catch (e: any) {
     console.error("sendContact error", e)
     return { ok: false, error: e?.message || "Failed to send" }
-  }
-}
-
-export function getEmailHealth() {
-  try {
-    const { to, from } = getResendConfig()
-    const fromDomain = from.split("<").pop()?.replace(">", "").trim().split("@").pop() ?? ""
-
-    return {
-      ok: true,
-      configured: {
-        resendApiKey: true,
-        resendFromEmail: from,
-        contactToEmail: to,
-      },
-      notes: fromDomain ? [`Sending from domain: ${fromDomain}`] : [],
-    }
-  } catch (e: any) {
-    return {
-      ok: false,
-      error: e?.message || "Email configuration is invalid",
-    }
   }
 }
