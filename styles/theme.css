@@ -13,8 +13,7 @@ p{max-width:68ch}
 .site-header{position:sticky;top:0;z-index:60;background:rgba(250,249,247,.94);border-bottom:1px solid var(--sand-200);backdrop-filter:blur(14px)}
 .nav-shell{height:76px;max-width:1280px;margin:auto;padding:0 40px;display:flex;align-items:center;gap:2rem}
 .brand{display:flex;align-items:center;gap:.75rem;margin-right:auto}
-.brand-logo-frame{position:relative;width:84px;height:32px;overflow:hidden;display:block;flex:0 0 auto}
-.brand-logo{position:absolute;width:132px;height:132px;max-width:none;left:-24px;top:-51px}
+.brand-logo{display:block;width:84px;height:32px;flex:0 0 auto}
 .brand strong,.brand small{display:block;line-height:1.25}
 .brand small{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-500)}
 .desktop-nav{display:flex;gap:1.5rem;font-size:.93rem}
@@ -259,8 +258,7 @@ tr:last-child td{border-bottom:0}
 @media(max-width:640px){body{padding-bottom:64px}
 .nav-shell{height:66px;padding:0 20px}
 .brand small{display:none}
-.brand-logo-frame{width:72px;height:28px}
-.brand-logo{width:113px;height:113px;left:-20px;top:-44px}
+.brand-logo{width:72px;height:28px}
 .home-hero,.page-hero,.content-section,.editorial-hero{padding:52px 20px}
 .home-hero{gap:36px}
 .home-hero .before-after{height:56.25vw;max-height:none;aspect-ratio:16/10}

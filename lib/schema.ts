@@ -3,7 +3,7 @@ import type { Faq, PriceRange } from "@/types/content"
 import { canonical } from "@/lib/seo-v2"
 
 const logo = `${siteConfig.url}/apple-touch-icon.png`
-const businessImage = `${siteConfig.url}/images/home/living-room-after.png`
+const businessImage = `${siteConfig.url}/images/home/living-room-after.jpg`
 const postalAddress = { "@type": "PostalAddress", streetAddress: siteConfig.address.street, addressLocality: siteConfig.address.city, addressRegion: siteConfig.address.region, postalCode: siteConfig.address.postalCode, addressCountry: siteConfig.address.country }
 
 export const organizationSchema = () => ({ "@context": "https://schema.org", "@type": "Organization", "@id": `${siteConfig.url}/#organization`, name: siteConfig.name, legalName: siteConfig.legalName, url: siteConfig.url, logo, image: businessImage, description: siteConfig.description, email: siteConfig.email, telephone: siteConfig.phone, address: postalAddress, contactPoint: { "@type": "ContactPoint", telephone: siteConfig.phone, contactType: "customer service", areaServed: "IN", availableLanguage: ["English", "Hindi"] } })
