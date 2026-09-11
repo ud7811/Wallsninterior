@@ -14,6 +14,8 @@ export const generateMetadata = async (): Promise<Metadata> =>
 
 function firstParam(value: string | string[] | undefined) { return Array.isArray(value) ? value[0] ?? "" : value ?? "" }
 
+const isProduction = process.env.NODE_ENV === "production"
+
 export default async function ContactPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const params = await searchParams
   const interest = { flatType: firstParam(params.flat), tier: firstParam(params.tier), priceRange: firstParam(params.range) }
@@ -26,12 +28,14 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
         <div>
           <h1 className="font-serif text-3xl mb-4">Contact</h1>
           <p className="text-muted-foreground mb-6">We&apos;d love to hear about your project. Fill this form or message us on WhatsApp.</p>
-          {emailHealth.ok && emailHealth.notes?.some(note => note.includes("test sender")) && (
+          {/* Operator diagnostics, not visitor copy. These were rendering on the live
+              lead-capture page, telling real customers about our env vars. */}
+          {!isProduction && emailHealth.ok && emailHealth.notes?.some(note => note.includes("test sender")) && (
             <div className="mb-4 rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
               Email is currently using Resend&apos;s test sender. Add <code>RESEND_FROM_EMAIL</code> in Vercel to receive production mail at your inbox.
             </div>
           )}
-          {!emailHealth.ok && (
+          {!isProduction && !emailHealth.ok && (
             <div className="mb-4 rounded-md border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-900">
               Email config error: {emailHealth.error}
             </div>
