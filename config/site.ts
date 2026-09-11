@@ -24,6 +24,15 @@ export const siteConfig = {
   priceRange: "₹₹",
   areas: ["Ghaziabad", "Noida", "Greater Noida"],
   social: {} as Record<string, string>,
+
+  // Studio coordinates for the LocalBusiness geo block. Set to null until confirmed
+  // against the actual studio pin — a wrong lat/lng is worse than none for local SEO.
+  geo: null as { lat: number; lng: number } | null,
+
+  // Owner-supplied trust numbers for the hero stat strip. Each renders only when set,
+  // so leaving one null simply omits that stat. DECISIONS.md: never guess these.
+  projectsCompleted: null as number | null,
+  foundedYear: null as number | null,
 } as const
 
 export const fullAddress = `${siteConfig.address.street}, ${siteConfig.address.locality}, ${siteConfig.address.city}, ${siteConfig.address.region} ${siteConfig.address.postalCode}`

@@ -1,10 +1,36 @@
 import Link from "next/link"
 import type { Faq } from "@/types/content"
+import type { GooglePlaceReviews } from "@/lib/google-reviews"
 import { siteConfig } from "@/config/site"
 import WhatsAppIcon from "@/components/site/whatsapp-icon"
 
 export function Breadcrumbs({ items }: { items: { label: string; href?: string }[] }) { return <nav className="breadcrumbs" aria-label="Breadcrumb">{items.map((item, i) => <span key={item.label}>{i > 0 && <span aria-hidden> / </span>}{item.href ? <Link href={item.href}>{item.label}</Link> : item.label}</span>)}</nav> }
 export function FaqList({ faqs }: { faqs: Faq[] }) { return <div className="faq-list">{faqs.map((faq, i) => <details key={faq.q} open={i === 0}><summary>{faq.q}</summary><p>{faq.a}</p></details>)}</div> }
+/**
+ * Hero trust row. Every stat is conditional on real data — a Google rating we
+ * actually fetched, or a count the owner confirmed in config/site.ts. Renders
+ * nothing when none are available; the hero's existing proof line stands alone,
+ * exactly as it did before.
+ */
+export function HeroStats({ reviews }: { reviews: GooglePlaceReviews | null }) {
+  const stats: { value: string; label: string; href?: string }[] = []
+  if (reviews) stats.push({ value: `★ ${reviews.rating.toFixed(1)}`, label: `${reviews.reviewCount} Google reviews`, href: reviews.mapsUri || undefined })
+  if (siteConfig.projectsCompleted) stats.push({ value: `${siteConfig.projectsCompleted}+`, label: "homes delivered" })
+  if (siteConfig.foundedYear) stats.push({ value: `Since ${siteConfig.foundedYear}`, label: "Ghaziabad & Noida" })
+
+  if (stats.length === 0) return null
+  return (
+    <dl className="hero-stats">
+      {stats.map(stat => (
+        <div key={stat.label}>
+          <dt>{stat.href ? <a href={stat.href} target="_blank" rel="noreferrer" data-cta="hero-google-rating">{stat.value}</a> : stat.value}</dt>
+          <dd>{stat.label}</dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
 export function CtaBanner({ heading, subheading }: { heading: string; subheading?: string }) {
   const message = encodeURIComponent("Hi Walls N Interior, I saw your published prices and would like an itemised estimate.")
   return <section className="cta-banner"><div><p className="eyebrow light">Clear scope. Clear price.</p><h2>{heading}</h2>{subheading && <p>{subheading}</p>}</div><div className="button-row"><Link className="button button-light" href="/contact">Get free quote</Link><a className="button button-whatsapp" href={`https://wa.me/${siteConfig.whatsapp}?text=${message}`} target="_blank" rel="noreferrer"><WhatsAppIcon />WhatsApp us</a></div></section>
