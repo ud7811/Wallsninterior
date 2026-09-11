@@ -3,6 +3,7 @@ import { createSeo } from "@/lib/seo"
 import ContactForm from "@/components/forms/contact-form"
 import { buildWhatsAppLink } from "@/lib/whatsapp"
 import { getEmailHealth } from "@/lib/email"
+import { siteConfig, fullAddress } from "@/config/site"
 
 export const generateMetadata = async (): Promise<Metadata> =>
   createSeo({
@@ -16,8 +17,7 @@ function firstParam(value: string | string[] | undefined) { return Array.isArray
 export default async function ContactPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const params = await searchParams
   const interest = { flatType: firstParam(params.flat), tier: firstParam(params.tier), priceRange: firstParam(params.range) }
-  const whatsapp = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "917428095297"
-  const wa = buildWhatsAppLink({ number: whatsapp, text: "Hi Walls N Interior, I'd like a design consultation" })
+  const wa = buildWhatsAppLink({ number: siteConfig.whatsapp, text: siteConfig.whatsappMessages.contact })
   const emailHealth = getEmailHealth()
 
   return (
@@ -37,18 +37,16 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
             </div>
           )}
           <div className="text-sm mb-4">
-            <a className="underline" href={wa} target="_blank" rel="noopener noreferrer">WhatsApp us</a>
+            <a className="underline" data-cta="contact-whatsapp" href={wa} target="_blank" rel="noopener noreferrer">WhatsApp us</a>
           </div>
           <ContactForm initialInterest={interest} />
         </div>
         <div className="card p-6">
           <div className="font-semibold mb-2">Studio</div>
-          <p className="text-sm text-muted-foreground">
-            LGF-11, Avantika Retail Street, Crossings Republik, Ghaziabad, Uttar Pradesh 201016, India
-          </p>
+          <p className="text-sm text-muted-foreground">{fullAddress}, India</p>
           <div className="mt-4 text-sm">
-            <div><strong>Phone:</strong> <a className="underline" href="tel:+917428095297">+917428095297</a></div>
-            <div><strong>Email:</strong> <a className="underline" href="mailto:wallsninterior@gmail.com">wallsninterior@gmail.com</a></div>
+            <div><strong>Phone:</strong> <a className="underline" data-cta="contact-call" href={`tel:${siteConfig.phone}`}>{siteConfig.phoneDisplay}</a></div>
+            <div><strong>Email:</strong> <a className="underline" href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a></div>
           </div>
         </div>
       </div>

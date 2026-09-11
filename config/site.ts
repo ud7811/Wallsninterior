@@ -25,6 +25,17 @@ export const siteConfig = {
   areas: ["Ghaziabad", "Noida", "Greater Noida"],
   social: {} as Record<string, string>,
 
+  // Prefilled WhatsApp copy, kept here so wording changes don't require touching
+  // components. Each entry is tied to the CTA that sends it, which is what makes
+  // the incoming message tell you where the visitor came from.
+  whatsappMessages: {
+    hero: "Hi Walls N Interior, I'd like a one-tap estimate for my home interiors.",
+    header: "Hi Walls N Interior, I'd like a free interior design quote.",
+    sticky: "Hi Walls N Interior, I saw your prices and would like an estimate.",
+    ctaBanner: "Hi Walls N Interior, I saw your published prices and would like an itemised estimate.",
+    contact: "Hi Walls N Interior, I'd like a design consultation.",
+  },
+
   // Studio coordinates for the LocalBusiness geo block. Set to null until confirmed
   // against the actual studio pin — a wrong lat/lng is worse than none for local SEO.
   geo: null as { lat: number; lng: number } | null,

@@ -30,9 +30,11 @@ p{max-width:68ch}
 .button-whatsapp{background:#1f8f55;color:white;gap:.45rem}
 .button-whatsapp:hover{background:#177445}
 .action-icon{width:1.1rem;height:1.1rem;flex:0 0 auto}
-.header-quote-button{background:white;color:var(--ink);border-color:var(--sand-200);gap:.5rem;box-shadow:0 2px 6px rgba(31,31,31,.06);height:40px;min-height:40px;padding:.45rem .9rem}
+.header-quote-button{background:white;color:var(--ink);border-color:var(--sand-200);gap:.5rem;box-shadow:0 2px 6px rgba(31,31,31,.06);height:44px;min-height:44px;padding:.45rem .9rem}
 .header-quote-button:hover{border-color:var(--ink)}
-.header-call-button{background:var(--ink);color:white;gap:.5rem;min-width:96px;height:40px;min-height:40px;padding:.45rem .9rem}
+.header-call-button{background:var(--ink);color:white;gap:.5rem;min-width:96px;height:44px;min-height:44px;padding:.45rem .9rem}
+.mobile-nav-actions{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.9rem;padding-top:.9rem;border-top:1px solid var(--sand-200)}
+.mobile-nav-actions .button{gap:.45rem}
 .header-call-button:hover{background:var(--clay)}
 .eyebrow{font-size:.75rem;text-transform:uppercase;letter-spacing:.18em;font-weight:800;color:var(--clay-600);margin:0 0 .8rem}
 .eyebrow.light{color:var(--sand-200)}
