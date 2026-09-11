@@ -28,8 +28,6 @@ pnpm verify     # typecheck + test + production build
 | `RESEND_FROM_EMAIL` | yes | Without it Resend falls back to its shared test sender |
 | `CONTACT_TO_EMAIL` | no | Defaults to `wallsninterior@gmail.com` |
 | `LEADS_SHEET_WEBHOOK_URL` | no | Durable lead storage — see below |
-| `GOOGLE_PLACE_ID` | no | Enables the reviews section + star ratings |
-| `GOOGLE_PLACES_API_KEY` | no | Server-only. Must **not** have a `NEXT_PUBLIC_` prefix |
 | `NEXT_PUBLIC_GA4_ID` | no | GA4 renders nothing when unset |
 | `NEXT_PUBLIC_GSC_VERIFICATION` | no | Search Console meta tag |
 
@@ -37,16 +35,23 @@ Everything optional degrades to nothing rendered — never to a placeholder. See
 
 ## Google reviews
 
-`lib/google-reviews.ts` reads rating, review count and reviews from the Places API
-(New), cached 24h. Supplying `GOOGLE_PLACE_ID` + `GOOGLE_PLACES_API_KEY` turns on
-the homepage reviews section, the hero rating stat and `aggregateRating` in the
-LocalBusiness schema — the last of which is what earns star snippets in search.
+Reviews are transcribed by hand into `data/testimonials.ts` from the Google
+Business Profile (Place ID `ChIJN_GmxwPvDDkRm2vl2xZMPEY`), not fetched. The Places
+API needs a billing account on file for what would be ~30 calls a month, which
+wasn't worth it.
 
-Google's terms require attribution, unedited review text and a link to the listing;
-the component does all three. Do not cache review content beyond 30 days.
+Two rules when editing that file, both enforced by `lib/testimonials.test.ts`:
 
-Without the credentials none of it renders. Never hardcode a rating as a fallback:
-it breaks `DECISIONS.md` and risks a structured-data penalty.
+1. **Quotes are verbatim.** Reproduced exactly as published, typos included.
+   Rewording a customer misrepresents them.
+2. **`aggregate` matches the live listing.** It feeds `aggregateRating` in the
+   LocalBusiness schema, which earns star snippets in search — and which Google
+   cross-checks against the Business Profile. A rating it can't verify is a
+   manual-action risk.
+
+The trade-off versus the API is staleness: nothing refreshes on its own. Re-read
+the listing whenever the rating or count moves and update `capturedOn`. As of
+2026-09-11 it was 5.0 from 52 reviews, all five-star.
 
 ## Lead storage
 

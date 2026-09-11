@@ -1,6 +1,6 @@
 import Link from "next/link"
 import type { Faq } from "@/types/content"
-import type { GooglePlaceReviews } from "@/lib/google-reviews"
+import { aggregate } from "@/data/testimonials"
 import { siteConfig } from "@/config/site"
 import { buildWhatsAppLink } from "@/lib/whatsapp"
 import WhatsAppIcon from "@/components/site/whatsapp-icon"
@@ -13,9 +13,9 @@ export function FaqList({ faqs }: { faqs: Faq[] }) { return <div className="faq-
  * nothing when none are available; the hero's existing proof line stands alone,
  * exactly as it did before.
  */
-export function HeroStats({ reviews }: { reviews: GooglePlaceReviews | null }) {
+export function HeroStats() {
   const stats: { value: string; label: string; href?: string }[] = []
-  if (reviews) stats.push({ value: `★ ${reviews.rating.toFixed(1)}`, label: `${reviews.reviewCount} Google reviews`, href: reviews.mapsUri || undefined })
+  if (aggregate.reviewCount > 0) stats.push({ value: `★ ${aggregate.rating.toFixed(1)}`, label: `${aggregate.reviewCount} Google reviews`, href: aggregate.listingUrl })
   if (siteConfig.projectsCompleted) stats.push({ value: `${siteConfig.projectsCompleted}+`, label: "homes delivered" })
   if (siteConfig.foundedYear) stats.push({ value: `Since ${siteConfig.foundedYear}`, label: "Ghaziabad & Noida" })
 

@@ -1,4 +1,5 @@
-import type { GooglePlaceReviews } from "@/lib/google-reviews"
+import type { Testimonial } from "@/types/content"
+import { testimonials, aggregate } from "@/data/testimonials"
 
 const Stars = ({ rating }: { rating: number }) => (
   <span className="review-stars" role="img" aria-label={`${rating} out of 5`}>
@@ -7,48 +8,42 @@ const Stars = ({ rating }: { rating: number }) => (
 )
 
 /**
- * Google Business Profile reviews.
+ * Google reviews, transcribed into data/testimonials.ts rather than fetched.
  *
- * Google's terms require attribution (name, photo, relative time), unedited text
- * and a link through to the listing — so none of that is optional styling here.
- *
- * Renders nothing when `data` is null so the page degrades to exactly what it was
- * before any reviews existed, per DECISIONS.md.
+ * Quotes are shown verbatim and attributed, and the section links out to the
+ * public listing so any claim here can be checked against the source. Renders
+ * nothing if the data file is emptied.
  */
-export function GoogleReviews({ data, max = 3 }: { data: GooglePlaceReviews | null; max?: number }) {
-  if (!data || data.reviews.length === 0) return null
-  const shown = data.reviews.slice(0, max)
+export function GoogleReviews({ items = testimonials, max = 3 }: { items?: Testimonial[]; max?: number }) {
+  const shown = items.slice(0, max)
+  if (shown.length === 0) return null
 
   return (
     <section className="content-section" id="reviews">
       <div className="section-heading">
         <p className="eyebrow">What homeowners say</p>
-        <h2>Rated {data.rating.toFixed(1)} on Google</h2>
-        <p>Across {data.reviewCount} {data.reviewCount === 1 ? "review" : "reviews"} from completed Walls N Interior homes.</p>
+        <h2>Rated {aggregate.rating.toFixed(1)} on Google</h2>
+        <p>Every one of our {aggregate.reviewCount} Google reviews is five stars. Here are three, word for word.</p>
       </div>
       <div className="card-grid">
-        {shown.map(review => (
-          <article className="review-card" key={`${review.author}-${review.relativeTime}`}>
-            <Stars rating={review.rating} />
-            <blockquote>{review.text}</blockquote>
+        {shown.map(item => (
+          <article className="review-card" key={item.slug}>
+            <Stars rating={item.rating} />
+            <blockquote>{item.quote}</blockquote>
             <footer className="review-author">
-              {/* Plain img: a 36px avatar on a Google-hosted domain is not worth a remotePatterns entry. */}
-              {review.authorPhoto && <img src={review.authorPhoto} alt="" width={36} height={36} loading="lazy" referrerPolicy="no-referrer" />}
               <div>
-                <strong>{review.author}</strong>
-                <span>{review.relativeTime}</span>
+                <strong>{item.clientName}</strong>
+                <span>{item.localityName ? `${item.localityName} · Google review` : "Google review"}</span>
               </div>
             </footer>
           </article>
         ))}
       </div>
-      {data.mapsUri && (
-        <div className="section-cta">
-          <a className="button button-secondary" href={data.mapsUri} target="_blank" rel="noreferrer" data-cta="reviews-google">
-            Read all {data.reviewCount} reviews on Google
-          </a>
-        </div>
-      )}
+      <div className="section-cta">
+        <a className="button button-secondary" href={aggregate.listingUrl} target="_blank" rel="noreferrer" data-cta="reviews-google">
+          Read all {aggregate.reviewCount} reviews on Google
+        </a>
+      </div>
     </section>
   )
 }
