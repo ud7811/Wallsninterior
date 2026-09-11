@@ -59,24 +59,27 @@ Every lead is written to a Google Sheet **before** the Resend email is sent, so 
 mail failure cannot lose it. Without `LEADS_SHEET_WEBHOOK_URL` the write is skipped
 and behaviour matches the old email-only path.
 
-Setup:
+Setup (~5 min, no billing):
 
-1. Create a Google Sheet. Row 1 headers, matching the payload keys:
-   `receivedAt, name, phone, city, service, message, flatType, tier, priceRange, ctaId`
-2. Extensions → Apps Script, and replace the contents with:
+1. Create a Google Sheet named e.g. "Walls N Interior — Leads". Leave it empty;
+   the script writes its own header row on first use.
+2. Extensions → Apps Script. Delete the stub and paste `scripts/leads-sheet.gs`.
+3. Deploy → New deployment → Web app. **Execute as: Me. Who has access: Anyone.**
+   Vercel calls it unauthenticated, so "Only myself" silently returns a login page
+   instead of writing the row.
+4. Copy the `/exec` URL into `LEADS_SHEET_WEBHOOK_URL` on Vercel (all environments),
+   then redeploy — existing deployments do not pick up new env vars.
+5. Verify before trusting it with real leads:
 
-   ```javascript
-   function doPost(e) {
-     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0]
-     var data = JSON.parse(e.postData.contents)
-     var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0]
-     sheet.appendRow(headers.map(function (h) { return data[h] || "" }))
-     return ContentService.createTextOutput("ok")
-   }
+   ```bash
+   ./scripts/check-leads-webhook.sh 'https://script.google.com/macros/s/AKfy.../exec'
    ```
 
-3. Deploy → New deployment → Web app. Execute as **Me**, access **Anyone**.
-4. Put the resulting `/exec` URL in `LEADS_SHEET_WEBHOOK_URL`.
+   A row appears named "TEST ROW - delete me". Delete it.
+
+The sheet has a `status` column the site never writes. Filling it in is what makes
+lead-to-customer rate answerable — GA4 cannot tell you that, because contact
+details must never be sent to Analytics.
 
 `lib/leads.integration.test.ts` covers the failure modes: Resend down but storage
 working still reports success to the visitor, an invalid phone stores nothing, a
