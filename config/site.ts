@@ -36,9 +36,10 @@ export const siteConfig = {
     contact: "Hi Walls N Interior, I'd like a design consultation.",
   },
 
-  // Studio coordinates for the LocalBusiness geo block. Set to null until confirmed
-  // against the actual studio pin — a wrong lat/lng is worse than none for local SEO.
-  geo: null as { lat: number; lng: number } | null,
+  // Studio coordinates for the LocalBusiness geo block, read off the Google Business
+  // Profile pin (Place ID ChIJN_GmxwPvDDkRm2vl2xZMPEY), whose address matches the one
+  // above exactly.
+  geo: { lat: 28.633043, lng: 77.442999 } as { lat: number; lng: number } | null,
 
   // Owner-supplied trust numbers for the hero stat strip. Each renders only when set,
   // so leaving one null simply omits that stat. DECISIONS.md: never guess these.
