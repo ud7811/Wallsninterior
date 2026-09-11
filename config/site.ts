@@ -10,7 +10,11 @@ export const siteConfig = {
   timezone: "Asia/Kolkata",
   phone: "+917428095297",
   phoneDisplay: "+91 74280 95297",
-  whatsapp: "917428095297",
+  // Overridable from Vercel without a code change. This is the single source for
+  // every WhatsApp link on the site — previously only /contact read the env var
+  // while everywhere else read the literal below, so changing it in Vercel updated
+  // one page and left the rest disagreeing.
+  whatsapp: (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "917428095297").replace(/[^0-9]/g, ""),
   email: "wallsninterior@gmail.com",
   address: {
     street: "LGF-11, Avantika Retail Street",
