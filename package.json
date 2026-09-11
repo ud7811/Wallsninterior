@@ -6,8 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "typecheck": "tsc --noEmit",
-    "verify": "pnpm typecheck && NEXT_PUBLIC_SITE_URL=https://wallsninterior.com next build",
-    "start": "next start"
+    "verify": "pnpm typecheck && pnpm test && NEXT_PUBLIC_SITE_URL=https://wallsninterior.com next build",
+    "start": "next start",
+    "test": "esbuild=$(ls node_modules/.pnpm/esbuild@*/node_modules/esbuild/bin/esbuild | head -1) && mkdir -p node_modules/.cache && for t in lib/*.test.ts; do o=\"node_modules/.cache/$(basename $t .ts).mjs\"; \"$esbuild\" \"$t\" --bundle --platform=node --format=esm --outfile=\"$o\" --tsconfig=tsconfig.json --log-level=warning --external:resend && node \"$o\" || exit 1; done"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

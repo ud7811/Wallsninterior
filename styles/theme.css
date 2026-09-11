@@ -13,8 +13,7 @@ p{max-width:68ch}
 .site-header{position:sticky;top:0;z-index:60;background:rgba(250,249,247,.94);border-bottom:1px solid var(--sand-200);backdrop-filter:blur(14px)}
 .nav-shell{height:76px;max-width:1280px;margin:auto;padding:0 40px;display:flex;align-items:center;gap:2rem}
 .brand{display:flex;align-items:center;gap:.75rem;margin-right:auto}
-.brand-logo-frame{position:relative;width:84px;height:32px;overflow:hidden;display:block;flex:0 0 auto}
-.brand-logo{position:absolute;width:132px;height:132px;max-width:none;left:-24px;top:-51px}
+.brand-logo{display:block;width:84px;height:32px;flex:0 0 auto}
 .brand strong,.brand small{display:block;line-height:1.25}
 .brand small{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-500)}
 .desktop-nav{display:flex;gap:1.5rem;font-size:.93rem}
@@ -31,9 +30,11 @@ p{max-width:68ch}
 .button-whatsapp{background:#1f8f55;color:white;gap:.45rem}
 .button-whatsapp:hover{background:#177445}
 .action-icon{width:1.1rem;height:1.1rem;flex:0 0 auto}
-.header-quote-button{background:white;color:var(--ink);border-color:var(--sand-200);gap:.5rem;box-shadow:0 2px 6px rgba(31,31,31,.06);height:40px;min-height:40px;padding:.45rem .9rem}
+.header-quote-button{background:white;color:var(--ink);border-color:var(--sand-200);gap:.5rem;box-shadow:0 2px 6px rgba(31,31,31,.06);height:44px;min-height:44px;padding:.45rem .9rem}
 .header-quote-button:hover{border-color:var(--ink)}
-.header-call-button{background:var(--ink);color:white;gap:.5rem;min-width:96px;height:40px;min-height:40px;padding:.45rem .9rem}
+.header-call-button{background:var(--ink);color:white;gap:.5rem;min-width:96px;height:44px;min-height:44px;padding:.45rem .9rem}
+.mobile-nav-actions{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.9rem;padding-top:.9rem;border-top:1px solid var(--sand-200)}
+.mobile-nav-actions .button{gap:.45rem}
 .header-call-button:hover{background:var(--clay)}
 .eyebrow{font-size:.75rem;text-transform:uppercase;letter-spacing:.18em;font-weight:800;color:var(--clay-600);margin:0 0 .8rem}
 .eyebrow.light{color:var(--sand-200)}
@@ -70,7 +71,24 @@ p{max-width:68ch}
 .section-heading{max-width:720px;margin-bottom:2.3rem}
 .split{display:grid;grid-template-columns:1fr 1fr;gap:64px}
 .bhk-grid,.tier-grid,.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.bhk-card,.info-card,.tier-card{background:white;border:1px solid var(--sand-200);border-radius:16px;padding:28px;display:flex;flex-direction:column;align-items:flex-start}
+.bhk-card,.info-card,.tier-card,.review-card{background:white;border:1px solid var(--sand-200);border-radius:16px;padding:28px;display:flex;flex-direction:column;align-items:flex-start}
+.review-card{gap:.9rem}
+.review-card blockquote{margin:0;color:var(--ink-700);line-height:1.6;white-space:pre-line}
+.review-stars{color:var(--clay);letter-spacing:.1em;font-size:1rem}
+.review-stars span{color:var(--sand-200)}
+.review-stars span.on{color:var(--clay)}
+.review-author{display:flex;align-items:center;gap:.65rem;margin-top:auto;padding-top:.4rem}
+.review-author img{border-radius:50%;flex:0 0 auto}
+.review-author div{display:flex;flex-direction:column;line-height:1.3}
+.review-author strong{font-size:.92rem}
+.review-author span{font-size:.8rem;color:var(--ink-500)}
+.hero-stats{display:flex;flex-wrap:wrap;gap:1.6rem 2.2rem;margin:2rem 0 0}
+.hero-stats div{display:flex;flex-direction:column;gap:.15rem}
+.hero-stats dt{font-size:1.35rem;font-weight:800;color:var(--ink);line-height:1.1}
+.hero-stats dt a{color:inherit;text-decoration:none;border-bottom:2px solid var(--clay)}
+.hero-stats dt a:hover{color:var(--clay-600)}
+.hero-stats dd{margin:0;font-size:.8rem;color:var(--ink-500)}
+.hero-stats+.hero-proof{margin-top:1.2rem}
 .bhk-card{min-height:310px;justify-content:space-between}
 .bhk-card:hover,.link-card:hover{border-color:var(--clay);transform:translateY(-2px)}
 .link-card{transition:.2s}
@@ -259,8 +277,7 @@ tr:last-child td{border-bottom:0}
 @media(max-width:640px){body{padding-bottom:64px}
 .nav-shell{height:66px;padding:0 20px}
 .brand small{display:none}
-.brand-logo-frame{width:72px;height:28px}
-.brand-logo{width:113px;height:113px;left:-20px;top:-44px}
+.brand-logo{width:72px;height:28px}
 .home-hero,.page-hero,.content-section,.editorial-hero{padding:52px 20px}
 .home-hero{gap:36px}
 .home-hero .before-after{height:56.25vw;max-height:none;aspect-ratio:16/10}

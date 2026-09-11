@@ -4,7 +4,7 @@ import { GA } from "@/lib/ga"
 import AnalyticsEvents from "@/components/analytics/analytics-events"
 import Header from "@/components/site/header"
 import Footer from "@/components/site/footer"
-import StickyMobileCTA from "@/components/site/sticky-mobile-cta"
+import FloatingContactBar from "@/components/site/floating-contact-bar"
 import BackToTop from "@/components/site/back-to-top"
 import { Inter, Playfair_Display } from "next/font/google"
 import type { Metadata } from "next"
@@ -34,7 +34,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <div id="main-content">{children}</div>
       <Footer />
       <BackToTop />
-      <StickyMobileCTA />
+      <FloatingContactBar />
     </div>
   )
 }

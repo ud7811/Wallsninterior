@@ -11,7 +11,9 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
+    // Deploys invalidate the optimized-image cache, so a long TTL is safe and
+    // saves repeat mobile visitors a revalidation round trip per image.
+    minimumCacheTTL: 2678400,
   },
   async redirects() {
     return [
