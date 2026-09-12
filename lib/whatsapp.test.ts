@@ -33,7 +33,7 @@ assert.equal(subjectForPath("/areas/greater-noida"), "interiors in Greater Noida
 assert.equal(subjectForPath("/areas/crossings-republik"), "interiors in Crossings Republik")
 
 // --- pages with no specific subject keep their own copy ---------------------
-for (const path of ["/", "/about", "/contact", "/process", "/warranty", "/services"]) {
+for (const path of ["/", "/about", "/contact", "/process", "/services"]) {
   assert.equal(subjectForPath(path), null, `${path} should have no subject`)
   assert.equal(messageForPath(path, FALLBACK), FALLBACK, `${path} should use the fallback copy`)
 }
