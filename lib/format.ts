@@ -10,6 +10,10 @@ export function formatINR(value: number, compact = false) {
 }
 
 const units: Record<PriceUnit, string> = { total: "total", per_sqft: "/sq ft", per_rft: "/running ft", per_unit: "/unit" }
-export function formatRange(range: PriceRange, compact = true) { return `${formatINR(range.min, compact)} – ${formatINR(range.max, compact)}` }
+export function formatRange(range: PriceRange, compact = true) {
+  // Only round totals. A per-sq-ft rate of 1,200 must not render as "₹1K".
+  const rounded = compact && range.unit === "total"
+  return `${formatINR(range.min, rounded)} – ${formatINR(range.max, rounded)}`
+}
 export function formatUnit(unit: PriceUnit) { return units[unit] }
 export function formatArea(min: number, max: number) { return `${min.toLocaleString("en-IN")}–${max.toLocaleString("en-IN")} sq ft` }
