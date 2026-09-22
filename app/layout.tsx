@@ -1,7 +1,5 @@
 import type { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/next'
-import { GeistSans } from 'geist/font/sans'
-import { GeistMono } from 'geist/font/mono'
 import { siteConfig } from '@/config/site'
 import { organizationSchema, websiteSchema } from '@/lib/schema'
 import { StructuredData } from '@/components/seo/structured-data'
@@ -43,15 +41,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en-IN">
-      <head>
-        <style>{`
-html {
-  font-family: ${GeistSans.style.fontFamily};
-  --font-sans: ${GeistSans.variable};
-  --font-mono: ${GeistMono.variable};
-}
-        `}</style>
-      </head>
       <body>
         <StructuredData data={[organizationSchema(), websiteSchema()]} />
         {children}
