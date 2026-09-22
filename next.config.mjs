@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
+if (process.env.NODE_ENV === "production" && !process.env.NEXT_PUBLIC_SITE_URL) {
+  throw new Error("NEXT_PUBLIC_SITE_URL must be set in production")
+}
+
 const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
@@ -7,7 +11,16 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
+    // Deploys invalidate the optimized-image cache, so a long TTL is safe and
+    // saves repeat mobile visitors a revalidation round trip per image.
+    minimumCacheTTL: 2678400,
+  },
+  async redirects() {
+    return [
+      { source: "/blog/design-ideas-:n", destination: "/blog", permanent: true },
+      { source: "/portfolio/urban-luxe-project-:n", destination: "/projects", permanent: true },
+      { source: "/portfolio", destination: "/projects", permanent: true },
+    ]
   },
 }
 

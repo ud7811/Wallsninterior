@@ -1,0 +1,6 @@
+import Link from "next/link"
+import { costPages } from "@/data/costPages"
+import { buildMetadata } from "@/lib/seo-v2"
+import { formatRange } from "@/lib/format"
+export const metadata = buildMetadata({ seo: { title: "Interior Design Cost Guides 2026 | Wallsninterior", description: "Compare transparent interior design cost guides for 2BHK, 3BHK and 4BHK homes in Ghaziabad, with room-wise indicative prices and exclusions.", primaryKeyword: "interior design cost ghaziabad" }, path: "/cost" })
+export default function CostHub() { return <main><section className="editorial-hero"><p className="eyebrow">No hidden-price form</p><h1>Interior design cost guides</h1><p className="lead">See indicative ranges, room-by-room costs, inclusions and exclusions before you book a consultation.</p></section><section className="content-section card-grid">{costPages.map(item => <Link className="info-card link-card" href={`/cost/${item.slug}`} key={item.slug}><p className="eyebrow">2026 guide</p><h2>{item.h1.replace(" (2026)", "")}</h2><p className="tier-price">{formatRange({ ...item.summaryTable[0].range, max: item.summaryTable.at(-1)!.range.max })}</p><span className="text-link">View full breakdown →</span></Link>)}</section></main> }
