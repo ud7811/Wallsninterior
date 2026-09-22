@@ -7,13 +7,18 @@ import Script from "next/script"
  * Renders nothing until NEXT_PUBLIC_GA4_ID (G-XXXXXXX) is set in the environment.
  * Page views are sent manually on route change by <AnalyticsEvents /> so that
  * client-side (SPA) navigations are counted, so send_page_view is disabled here.
+ *
+ * The two scripts use different strategies on purpose: the inline shim must run
+ * early so window.gtag exists before AnalyticsEvents fires its mount effect
+ * (trackPageView drops the call otherwise), while gtag.js itself is deferred off
+ * the critical path. Queued calls land in dataLayer and drain once it loads.
  */
 export function GA() {
   const id = process.env.NEXT_PUBLIC_GA4_ID
   if (!id) return null
   return (
     <>
-      <Script id="ga4-src" async src={`https://www.googletagmanager.com/gtag/js?id=${id}`} />
+      <Script id="ga4-src" strategy="lazyOnload" src={`https://www.googletagmanager.com/gtag/js?id=${id}`} />
       <Script id="ga4-init">
         {`
           window.dataLayer = window.dataLayer || [];

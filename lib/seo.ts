@@ -5,7 +5,7 @@ export const siteConfig = {
   description:
     "Interior design studio in Crossings Republik, Ghaziabad for elegant homes, offices, renovations, and turnkey interiors.",
   url: (process.env.NEXT_PUBLIC_SITE_URL || "https://wallsninterior.com").replace(/\/$/, ""),
-  ogImage: "/images/hero-1.png",
+  ogImage: "/images/og-default.jpg",
   defaultKeywords: [
     "interior designer in Ghaziabad",
     "interior designer in Crossings Republik",

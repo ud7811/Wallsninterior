@@ -10,7 +10,7 @@ export default function BeforeAfterSlider() {
   return <figure className="before-after" aria-label="Living room before and after interior transformation">
     <Image className="before-after-image" src="/images/home/living-room-before.jpg" alt="Unfinished apartment living room before interior work" fill priority draggable={false} sizes="(max-width: 900px) calc(100vw - 40px), 46vw" />
     <div className="before-after-reveal" style={{ clipPath, WebkitClipPath: clipPath }}>
-      <Image className="before-after-image" src="/images/home/living-room-after.jpg" alt="The same living room after complete interior design and execution" fill priority draggable={false} sizes="(max-width: 900px) calc(100vw - 40px), 46vw" />
+      <Image className="before-after-image" src="/images/home/living-room-after.jpg" alt="The same living room after complete interior design and execution" fill draggable={false} sizes="(max-width: 900px) calc(100vw - 40px), 46vw" />
     </div>
     <span className="before-after-label before-label">Initial</span>
     <span className="before-after-label after-label">Final</span>
