@@ -11,7 +11,7 @@ export type TierName = "Essential" | "Comfort" | "Premium"
 export interface PriceTier { name: TierName; tagline: string; range: PriceRange; bestFor: string; includes: string[]; excludes: string[]; materials: { ply: string; finish: string; hardware: string } }
 export interface RoomCostLine { room: string; range: PriceRange; note?: string }
 export interface BhkConfig {
-  slug: Slug; label: string; bedrooms: number; bathrooms: number; typicalCarpetArea: AreaRange; seo: SeoBlock; h1: string; intro: string;
+  slug: Slug; label: string; bedrooms: number; bathrooms: number; typicalCarpetArea: AreaRange; seo: SeoBlock; h1: string; heroLine: string; intro: string;
   headlinePrice: PriceRange; tiers: PriceTier[]; roomBreakdown: RoomCostLine[];
   timeline: { weeks: { min: number; max: number }; phases: { week: string; label: string; detail: string }[] };
   relatedServices: Slug[]; commonInSocieties: Slug[]; featuredProjects: Slug[]; costPageSlug: Slug; faqs: Faq[]; cta: CtaBlock;

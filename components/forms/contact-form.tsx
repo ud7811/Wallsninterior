@@ -1,12 +1,15 @@
 "use client"
 
-import { useActionState, useEffect } from "react"
+import { useActionState, useEffect, useState } from "react"
 import { sendContact, type ContactResult } from "@/app/actions/send-contact"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { pushEvent } from "@/lib/ga"
+import { siteConfig } from "@/config/site"
+import { buildWhatsAppLink } from "@/lib/whatsapp"
+import { BUDGETS, HOME_SIZES, budgetOption, isHighValue, leadWhatsAppText } from "@/lib/lead-options"
 import { toast } from "sonner"
 
 function SubmitBtn({ pending }: { pending: boolean }) {
@@ -19,13 +22,17 @@ function FieldError({ message }: { message?: string }) {
   return message ? <p className="text-red-600 text-sm" role="alert">{message}</p> : null
 }
 
-export default function ContactForm({ initialInterest }: { initialInterest?: InitialInterest }) {
+export default function ContactForm({ initialInterest, defaultHomeSize = "" }: { initialInterest?: InitialInterest; defaultHomeSize?: string }) {
+  const [homeSize, setHomeSize] = useState(defaultHomeSize)
+  const [budget, setBudget] = useState("")
   const [state, formAction, pending] = useActionState<ContactResult, FormData>(
     async (_prev, formData) =>
       sendContact({
         name: String(formData.get("name") || ""),
         phone: String(formData.get("phone") || ""),
         city: String(formData.get("city") || ""),
+        budget: String(formData.get("budget") || ""),
+        homeSize: String(formData.get("homeSize") || ""),
         service: String(formData.get("service") || ""),
         message: String(formData.get("message") || ""),
         flatType: String(formData.get("flatType") || ""),
@@ -41,9 +48,14 @@ export default function ContactForm({ initialInterest }: { initialInterest?: Ini
 
   useEffect(() => {
     if (state.ok) {
-      pushEvent("contact_form_submit", { method: "server_action" })
+      const value = budgetOption(budget)?.leadValue
+      const params = { budget_band: budget, home_size: homeSize, high_value: isHighValue(budget), value, currency: "INR" }
+      pushEvent("contact_form_submit", { method: "server_action", ...params })
+      if (isHighValue(budget)) pushEvent("high_value_lead", params)
       toast.success("Mail sent successfully")
     }
+    // budget/homeSize are read at the moment of success, not tracked as triggers.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.ok])
 
   return (
@@ -69,26 +81,40 @@ export default function ContactForm({ initialInterest }: { initialInterest?: Ini
         <FieldError message={fieldErrors?.phone} />
       </div>
       <div className="grid gap-2">
+        <label className="text-sm font-medium">Approx. budget</label>
+        <Select name="budget" required value={budget} onValueChange={setBudget}>
+          <SelectTrigger aria-invalid={!!fieldErrors?.budget}><SelectValue placeholder="Approx. budget" /></SelectTrigger>
+          <SelectContent>
+            {BUDGETS.map(o => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}
+          </SelectContent>
+        </Select>
+        <FieldError message={fieldErrors?.budget} />
+      </div>
+      <div className="grid gap-2">
+        <label className="text-sm font-medium">Home size</label>
+        <Select name="homeSize" required value={homeSize} onValueChange={setHomeSize}>
+          <SelectTrigger aria-invalid={!!fieldErrors?.homeSize}><SelectValue placeholder="Home size" /></SelectTrigger>
+          <SelectContent>
+            {HOME_SIZES.map(o => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}
+          </SelectContent>
+        </Select>
+        <FieldError message={fieldErrors?.homeSize} />
+      </div>
+      <div className="grid gap-2">
         <label htmlFor="city" className="text-sm font-medium">City</label>
         <Input id="city" name="city" required placeholder="Noida" autoComplete="address-level2" aria-invalid={!!fieldErrors?.city} />
         <FieldError message={fieldErrors?.city} />
-      </div>
-      <div className="grid gap-2">
-        <label className="text-sm font-medium">Service</label>
-        <Select name="service" defaultValue="Interior Design">
-          <SelectTrigger><SelectValue placeholder="Select service" /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="Interior Design">Interior Design</SelectItem>
-            <SelectItem value="Renovation">Renovation</SelectItem>
-            <SelectItem value="Consultation">Consultation</SelectItem>
-          </SelectContent>
-        </Select>
       </div>
       <div className="grid gap-2">
         <label htmlFor="message" className="text-sm font-medium">Message</label>
         <Textarea id="message" name="message" rows={4} placeholder="Tell us about your project..." />
       </div>
       <SubmitBtn pending={pending} />
+      {homeSize && budget && (
+        <a className="text-sm underline" data-cta="contact-form-whatsapp" href={buildWhatsAppLink({ number: siteConfig.whatsapp, text: leadWhatsAppText(homeSize, budget) })} target="_blank" rel="noreferrer">
+          Prefer WhatsApp? Send these details there
+        </a>
+      )}
       {state.ok && <div className="text-green-600 text-sm">Thanks! We&apos;ll reach out shortly.</div>}
       {!state.ok && state.error && <div className="text-red-600 text-sm">{state.error}</div>}
     </form>

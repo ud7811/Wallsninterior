@@ -10,7 +10,7 @@
 import assert from "node:assert/strict"
 import { leadSchema } from "./leads"
 
-const valid = { name: "Utkarsh Dubey", phone: "9876543210", city: "Noida", service: "Interior Design", message: "3 BHK in Crossings Republik" }
+const valid = { name: "Utkarsh Dubey", phone: "9876543210", city: "Noida", budget: "5-10", homeSize: "3bhk", service: "Interior Design", message: "3 BHK in Crossings Republik" }
 
 // --- accepts ----------------------------------------------------------------
 const ok = leadSchema.safeParse(valid)
@@ -29,7 +29,7 @@ for (const [input, expected] of [
 }
 
 // Optional fields default rather than erroring.
-const minimal = leadSchema.safeParse({ name: "Ab", phone: "9876543210", city: "Delhi", service: "Interior Design" })
+const minimal = leadSchema.safeParse({ name: "Ab", phone: "9876543210", city: "Delhi", budget: "lt3", homeSize: "2bhk", service: "Interior Design" })
 assert.ok(minimal.success)
 assert.equal(minimal.data.message, "")
 assert.equal(minimal.data.flatType, "")
@@ -53,6 +53,9 @@ const bad: [string, Record<string, unknown>][] = [
   ["empty city", { ...valid, city: "" }],
   ["oversized message", { ...valid, message: "x".repeat(2001) }],
   ["oversized name", { ...valid, name: "x".repeat(81) }],
+  ["missing budget", { ...valid, budget: undefined }],
+  ["unknown budget", { ...valid, budget: "50L" }],
+  ["missing home size", { ...valid, homeSize: "" }],
 ]
 for (const [label, payload] of bad) {
   assert.equal(leadSchema.safeParse(payload).success, false, `should reject: ${label}`)

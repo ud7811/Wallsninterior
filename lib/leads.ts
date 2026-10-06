@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { BUDGET_VALUES, HOME_SIZE_VALUES } from "./lead-options"
 
 /**
  * Lead validation and durable storage.
@@ -19,6 +20,9 @@ export const leadSchema = z.object({
     .transform(v => v.replace(/[\s-()]/g, ""))
     .refine(v => PHONE.test(v), "Please enter a valid 10-digit Indian mobile number"),
   city: z.string().trim().min(2, "Please enter your city").max(60),
+  // Required so every lead says what it is worth before anyone calls back.
+  budget: z.enum(BUDGET_VALUES, { errorMap: () => ({ message: "Please pick an approximate budget" }) }),
+  homeSize: z.enum(HOME_SIZE_VALUES, { errorMap: () => ({ message: "Please pick your home size" }) }),
   service: z.enum(["Interior Design", "Renovation", "Consultation"]).catch("Interior Design"),
   message: z.string().trim().max(2000).default(""),
   flatType: z.string().trim().max(40).default(""),

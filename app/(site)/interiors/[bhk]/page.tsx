@@ -7,14 +7,17 @@ import { StructuredData } from "@/components/seo/structured-data"
 import { Breadcrumbs, CtaBanner, FaqList, ThreeDDesignSection } from "@/components/content/page-sections"
 import { PriceHero, PriceTierCards, RoomCostTable } from "@/components/content/pricing"
 import Link from "next/link"
+import ContactForm from "@/components/forms/contact-form"
+import { homeSizeFromLabel } from "@/lib/lead-options"
 
 export function generateStaticParams() { return bhkConfigs.map(item => ({ bhk: item.slug })) }
 export async function generateMetadata({ params }: { params: Promise<{ bhk: string }> }) { const { bhk } = await params; const item = bhkConfigs.find(x => x.slug === bhk); return item ? buildMetadata({ seo: item.seo, path: `/interiors/${item.slug}` }) : {} }
 export default async function BhkPage({ params }: { params: Promise<{ bhk: string }> }) {
   const { bhk } = await params; const item = bhkConfigs.find(x => x.slug === bhk); if (!item) notFound()
   const crumbs = [{ label: "Home", href: "/" }, { label: "Interiors", href: "/#interiors" }, { label: item.label }]
-  return <><StructuredData data={[serviceSchema(item.h1, item.intro, `/interiors/${item.slug}`, item.headlinePrice), faqSchema(item.faqs), breadcrumbsSchema(crumbs)]} />
-    <article><div className="page-hero"><div className="container-narrow"><Breadcrumbs items={crumbs} /><p className="eyebrow">Full-home interiors</p><h1>{item.h1}</h1><p className="lead">{item.intro}</p><p className="small">Typical carpet area: {formatArea(item.typicalCarpetArea.min, item.typicalCarpetArea.max)}</p></div><PriceHero range={item.headlinePrice} label="Indicative full-home range" /></div>
+  return <><StructuredData data={[serviceSchema(`${item.label} Flat Interior Design in Ghaziabad & Noida`, item.intro, `/interiors/${item.slug}`, item.headlinePrice), faqSchema(item.faqs), breadcrumbsSchema(crumbs)]} />
+    <article><div className="page-hero"><div className="container-narrow"><Breadcrumbs items={crumbs} /><p className="eyebrow">Full-home interiors in Ghaziabad &amp; Noida</p><h1>{item.h1}</h1><p className="lead"><strong>{item.heroLine}</strong></p><p className="lead">{item.intro}</p><p className="small">Typical carpet area: {formatArea(item.typicalCarpetArea.min, item.typicalCarpetArea.max)}</p></div><PriceHero range={item.headlinePrice} label="Indicative full-home range" /></div>
+    <section className="content-section" id="quote"><div className="section-heading"><p className="eyebrow">Free quote</p><h2>Get an itemised range for your {item.label}</h2></div><ContactForm defaultHomeSize={homeSizeFromLabel(item.label)} /></section>
     <section className="content-section"><div className="section-heading"><p className="eyebrow">Choose your finish level</p><h2>Three clear specifications</h2><p>Every tier states what is included and excluded, with plywood and board brands agreed before production.</p><div className="brand-options" aria-label="Available plywood and board brands"><span>CenturyPly</span><span>Greenply</span><span>Kitply</span><span>Archidply</span><span>Action TESA</span></div><p className="small brand-note">Brand, grade and thickness depend on the selected tier and application. Your final BOQ records the exact approved specification.</p></div><PriceTierCards tiers={item.tiers} flatLabel={item.label} /></section>
     <section className="content-section tint"><div className="section-heading"><p className="eyebrow">Room-wise planning</p><h2>Where the budget goes</h2></div><RoomCostTable lines={item.roomBreakdown} /></section>
     <ThreeDDesignSection />

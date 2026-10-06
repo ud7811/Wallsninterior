@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { createSeo } from "@/lib/seo"
 import ContactForm from "@/components/forms/contact-form"
 import { buildWhatsAppLink } from "@/lib/whatsapp"
+import { homeSizeFromLabel } from "@/lib/lead-options"
 import { getEmailHealth } from "@/lib/email"
 import { siteConfig, fullAddress } from "@/config/site"
 
@@ -43,7 +44,7 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
           <div className="text-sm mb-4">
             <a className="underline" data-cta="contact-whatsapp" href={wa} target="_blank" rel="noopener noreferrer">WhatsApp us</a>
           </div>
-          <ContactForm initialInterest={interest} />
+          <ContactForm initialInterest={interest} defaultHomeSize={homeSizeFromLabel(interest.flatType)} />
         </div>
         <div className="card p-6">
           <div className="font-semibold mb-2">Studio</div>
