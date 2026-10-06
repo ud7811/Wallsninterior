@@ -15,7 +15,7 @@ import { sendContact } from "@/app/actions/send-contact"
 // The Resend failures below are deliberate; keep their stack traces out of the run.
 console.error = () => {}
 
-const valid = { name: "Test Lead", phone: "98765 43210", city: "Noida", service: "Interior Design", message: "hi", flatType: "3 BHK", tier: "Comfort", priceRange: "Rs4.2L" }
+const valid = { name: "Test Lead", phone: "98765 43210", city: "Noida", budget: "5-10", homeSize: "3bhk", service: "Interior Design", message: "hi", flatType: "3 BHK", tier: "Comfort", priceRange: "Rs4.2L" }
 
 async function main() {
   const received: any[] = []
@@ -35,6 +35,7 @@ async function main() {
   assert.equal(received[0].phone, "9876543210", "phone normalised before storage")
   assert.equal(received[0].flatType, "3 BHK", "tier context carried into storage")
   assert.ok(received[0].receivedAt, "row is timestamped")
+  assert.equal(received[0].budget, "5-10", "budget carried into storage")
 
   // 2. Invalid phone -> rejected server-side with a field error, nothing stored
   const r2 = await sendContact({ ...valid, phone: "asdf" })

@@ -35,16 +35,18 @@ const faq = (label: string, price: string, weeks: string) => [
 ]
 
 const configs = [
-  { slug: "2bhk-flat-interior-design", label: "2 BHK", bedrooms: 2, bathrooms: 2, area: [650, 1050], headline: [250000, 1200000], tier: [[250000, 450000], [450000, 750000], [750000, 1200000]], weeks: [5, 7], desc: "2BHK flat interior design across Ghaziabad and Noida with open indicative pricing, room-wise costs, timelines and a free site consultation." },
-  { slug: "3bhk-flat-interior-design", label: "3 BHK", bedrooms: 3, bathrooms: 2, area: [1050, 1650], headline: [450000, 1800000], tier: [[450000, 700000], [700000, 1100000], [1100000, 1800000]], weeks: [6, 9], desc: "3BHK flat interior design in Ghaziabad and Noida from an indicative ₹4.5L–₹18L. Compare tiers, room costs and timelines before you enquire." },
-  { slug: "4bhk-flat-interior-design", label: "4 BHK", bedrooms: 4, bathrooms: 3, area: [1600, 2600], headline: [900000, 3000000], tier: [[900000, 1400000], [1400000, 2100000], [2100000, 3000000]], weeks: [8, 12], desc: "4BHK flat interior design across Ghaziabad and Noida with indicative ₹9L–₹30L pricing, detailed inclusions and a transparent project timeline." },
+  { slug: "2bhk-flat-interior-design", label: "2 BHK", bedrooms: 2, bathrooms: 2, area: [650, 1050], headline: [250000, 1200000], tier: [[250000, 450000], [450000, 750000], [750000, 1200000]], weeks: [5, 7], heroNoun: "Interiors", desc: "2BHK flat interior design across Ghaziabad and Noida with open indicative pricing, room-wise costs, timelines and a free site consultation." },
+  { slug: "3bhk-flat-interior-design", label: "3 BHK", bedrooms: 3, bathrooms: 2, area: [1050, 1650], headline: [450000, 1800000], tier: [[450000, 700000], [700000, 1100000], [1100000, 1800000]], weeks: [6, 9], heroNoun: "Interiors", desc: "3BHK flat interior design in Ghaziabad and Noida from an indicative ₹4.5L–₹18L. Compare tiers, room costs and timelines before you enquire." },
+  { slug: "4bhk-flat-interior-design", label: "4 BHK", bedrooms: 4, bathrooms: 3, area: [1600, 2600], headline: [900000, 3000000], tier: [[900000, 1400000], [1400000, 2100000], [2100000, 3000000]], weeks: [8, 12], heroNoun: "Turnkey Interiors", desc: "4BHK flat interior design across Ghaziabad and Noida with indicative ₹9L–₹30L pricing, detailed inclusions and a transparent project timeline." },
 ] as const
 
 export const bhkConfigs: BhkConfig[] = configs.map(item => ({
   slug: item.slug, label: item.label, bedrooms: item.bedrooms, bathrooms: item.bathrooms,
   typicalCarpetArea: { min: item.area[0], max: item.area[1] },
   seo: { title: `${item.label} Interior Design in Ghaziabad | Wallsninterior`, description: item.desc, primaryKeyword: `${item.label.toLowerCase()} interior design ghaziabad` },
-  h1: `${item.label} Flat Interior Design in Ghaziabad & Noida`,
+  // Repeats the Google Ads starting price, so a paid visitor sees the number they clicked on.
+  h1: `${item.label} ${item.heroNoun} from ₹${item.headline[0] / 100000}L`,
+  heroLine: `${item.weeks[0]}–${item.weeks[1]} weeks · itemised quote before work starts`,
   intro: `A complete ${item.label} interior fitout currently benchmarks at ₹${item.headline[0] / 100000}L–₹${item.headline[1] / 100000}L, depending on carpet area, scope, finish and hardware. We show the range before consultation so you can compare options without a hidden-price sales process.`,
   headlinePrice: range(item.headline[0], item.headline[1]), tiers: tiers(item.tier[0], item.tier[1], item.tier[2]), roomBreakdown: roomLines(item.bedrooms),
   timeline: { weeks: { min: item.weeks[0], max: item.weeks[1] }, phases: [

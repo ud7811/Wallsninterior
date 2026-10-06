@@ -3,11 +3,14 @@
 import { Resend } from "resend"
 import { getResendConfig } from "@/lib/email"
 import { leadSchema, storeLead, type Lead } from "@/lib/leads"
+import { budgetOption, homeSizeOption } from "@/lib/lead-options"
 
 export type ContactPayload = {
   name: string
   phone: string
   city: string
+  budget: string
+  homeSize: string
   service: string
   message: string
   flatType?: string
@@ -48,6 +51,8 @@ function buildHtml(lead: Lead, meta: Record<string, string>) {
       ${row("Name", lead.name)}
       ${row("Phone", lead.phone)}
       ${row("City", lead.city)}
+      ${row("Home size", homeSizeOption(lead.homeSize)?.label ?? "")}
+      ${row("Budget", budgetOption(lead.budget)?.label ?? "")}
       ${row("Service", lead.service)}
       ${row("Message", lead.message)}
       <hr />
@@ -79,11 +84,12 @@ export async function sendContact(payload: ContactPayload): Promise<ContactResul
 
   try {
     const { apiKey, to, from } = getResendConfig()
-    const interestLabel = lead.flatType && lead.tier ? `${lead.flatType} ${lead.tier} tier` : lead.service
+    // Budget leads the subject so leads can be triaged from the inbox list.
+    const subject = ["New lead", homeSizeOption(lead.homeSize)?.label, budgetOption(lead.budget)?.short, `${lead.name} (${lead.city})`].filter(Boolean).join(" — ")
     await new Resend(apiKey).emails.send({
       to,
       from,
-      subject: `New ${interestLabel} enquiry from ${lead.name} (${lead.city})`,
+      subject,
       html: buildHtml(lead, meta),
     })
     return { ok: true }
