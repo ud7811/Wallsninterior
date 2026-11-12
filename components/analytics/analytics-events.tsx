@@ -42,9 +42,15 @@ export default function AnalyticsEvents() {
       // site reports as the same undifferentiated whatsapp_click, so there is no
       // way to tell a hero tap from a sticky-bar tap from a CTA-banner tap.
       const cta_id = (a.closest("[data-cta]") as HTMLElement | null)?.dataset.cta
+      // Which block of a landing page the CTA sits in (area_hero, area_prices,
+      // area_closing). Only set where a section opts in; absent everywhere else.
+      const cta_location = (a.closest("[data-cta-location]") as HTMLElement | null)?.dataset.ctaLocation
+      // tel: and WhatsApp hand the visitor to another app, so the hit must survive
+      // the page being backgrounded or unloaded.
+      const beacon = { transport_type: "beacon" }
 
       if (href.startsWith("tel:")) {
-        pushEvent("phone_click", { page_path, cta_id })
+        pushEvent("phone_click", { page_path, cta_id, cta_location, ...beacon })
         return
       }
       if (href.startsWith("mailto:")) {
@@ -55,12 +61,12 @@ export default function AnalyticsEvents() {
         const cls = (a.className || "").toString().toLowerCase()
         const text = (a.textContent || "").toLowerCase()
         const isQuote = cls.includes("quote") || /\bquote\b/.test(text)
-        pushEvent(isQuote ? "quote_click" : "whatsapp_click", { page_path, link_domain: "wa.me", cta_id })
+        pushEvent(isQuote ? "quote_click" : "whatsapp_click", { page_path, link_domain: "wa.me", cta_id, cta_location, ...beacon })
         return
       }
       // Non-WhatsApp CTAs worth attributing: BHK cards, tier deeplinks, the
       // calculator's handoff into the contact form.
-      if (cta_id) pushEvent("cta_click", { page_path, cta_id, href })
+      if (cta_id) pushEvent("cta_click", { page_path, cta_id, cta_location, href })
     }
     document.addEventListener("click", onClick, true)
     return () => document.removeEventListener("click", onClick, true)

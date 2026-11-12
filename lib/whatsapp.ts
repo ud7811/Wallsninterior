@@ -67,3 +67,12 @@ export function messageForPath(pathname: string, fallback: string) {
   const subject = subjectForPath(pathname)
   return subject ? `Hi Walls N Interior, I'd like a quote for ${subject}.` : fallback
 }
+
+/**
+ * Prefill for the /areas/* landing-page CTAs. Names the search ("interior designer")
+ * rather than the generic per-path quote, so the team can tell these paid-traffic
+ * leads apart from the sticky bar on the same page.
+ */
+export function areaDesignerMessage(area: string) {
+  return `Hi Walls N Interior, I'm looking for an interior designer in ${area}.`
+}
