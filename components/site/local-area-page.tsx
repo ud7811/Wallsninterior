@@ -1,7 +1,14 @@
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import { Phone } from "lucide-react"
 import { StructuredData } from "@/components/seo/structured-data"
+import BeforeAfterSlider from "@/components/content/before-after-slider"
+import { GoogleReviews } from "@/components/content/google-reviews"
+import { RecentProjects, BhkPriceGrid } from "@/components/content/home-sections"
+import WhatsAppIcon from "@/components/site/whatsapp-icon"
 import { breadcrumbsSchema, localBusinessSchema } from "@/lib/schema"
+import { buildWhatsAppLink, areaDesignerMessage } from "@/lib/whatsapp"
+import { aggregate } from "@/data/testimonials"
+import { siteConfig } from "@/config/site"
 
 type LocalAreaPageProps = {
   area: string
@@ -24,61 +31,87 @@ const services = [
   },
 ]
 
+/**
+ * Landing page for paid "interior designer in <city>" traffic: the location-matched
+ * H1, then the homepage's proof (before/after, projects, prices, reviews). Every
+ * number shown here is read from the same data the homepage uses.
+ */
 export function LocalAreaPage({ area, intro, localNote }: LocalAreaPageProps) {
   const crumbs = [{ label: "Home", href: "/" }, { label: "Service areas" }, { label: area }]
+  const whatsappHref = buildWhatsAppLink({ number: siteConfig.whatsapp, text: areaDesignerMessage(area) })
+  const trust = [
+    `${aggregate.rating.toFixed(1)}★ on Google`,
+    `${aggregate.reviewCount} reviews`,
+    siteConfig.projectsCompleted && `${siteConfig.projectsCompleted}+ homes delivered`,
+    `Studio in ${siteConfig.address.locality}`,
+  ].filter(Boolean).join(" · ")
+
   return (
     <><StructuredData data={[localBusinessSchema([area]), breadcrumbsSchema(crumbs)]} /><main>
-      <section className="section">
-        <div className="container mx-auto px-4 grid gap-8 lg:grid-cols-[1.4fr_0.6fr] lg:items-start">
-          <div className="space-y-5">
-            <p className="text-sm font-medium uppercase tracking-[0.2em] text-[color:var(--accent-2)]">Walls N Interior</p>
-            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl">Interior Designer in {area}</h1>
-            <p className="text-muted-foreground max-w-3xl text-lg">{intro}</p>
-            <div className="flex flex-wrap gap-3">
-              <Link href="/contact"><Button size="lg">Book a consultation</Button></Link>
-              <Link href="/portfolio"><Button size="lg" variant="outline">View our work</Button></Link>
-            </div>
+      <section className="home-hero area-hero">
+        <div data-cta-location="area_hero">
+          <p className="eyebrow">Walls N Interior</p>
+          <h1>Interior Designer in {area}</h1>
+          <p className="lead">Full-home interiors and modular work for {area} apartments, with prices you can see before you book.</p>
+          <p className="area-trust">{trust}</p>
+          <div className="button-row">
+            <a className="button button-whatsapp" data-cta="area-hero-whatsapp" href={whatsappHref} target="_blank" rel="noreferrer"><WhatsAppIcon />WhatsApp us</a>
+            <a className="button button-secondary" data-cta="area-hero-call" href={`tel:${siteConfig.phone}`}><Phone className="action-icon" aria-hidden="true" />Call</a>
           </div>
-          <aside className="card p-6 space-y-2">
-            <h2 className="font-serif text-xl">A nearby design studio</h2>
-            <p className="text-sm text-muted-foreground">{localNote}</p>
-            <p className="text-sm">LGF-11, Avantika Retail Street, Crossings Republik, Ghaziabad 201016</p>
-          </aside>
+          <p className="area-alt-link"><Link className="text-link" href="/contact">or book a consultation</Link></p>
+        </div>
+        <BeforeAfterSlider />
+      </section>
+
+      <RecentProjects />
+
+      <section className="content-section" data-cta-location="area_prices">
+        <div className="section-heading"><p className="eyebrow">Indicative ranges</p><h2>What a {area} home typically costs</h2><p>Full-home price ranges by floor plan. You get an itemised quotation before any work starts.</p></div>
+        <BhkPriceGrid ctaPrefix="area-bhk" />
+        <div className="section-cta"><Link className="button button-secondary" data-cta="area-cost-calculator" href="/tools/cost-calculator">Estimate my cost</Link></div>
+      </section>
+
+      <GoogleReviews />
+
+      <section className="content-section tint split area-studio">
+        <div>
+          <p className="eyebrow">Local studio</p>
+          <h2>A nearby design studio</h2>
+          <p className="lead">{localNote}</p>
+        </div>
+        <div className="info-card">
+          <p><strong>{siteConfig.address.street}, {siteConfig.address.locality}, {siteConfig.address.city} {siteConfig.address.postalCode}</strong></p>
+          <p className="muted">Open daily, {siteConfig.hours[0].opens}–{siteConfig.hours[0].closes}</p>
         </div>
       </section>
 
-      <section className="section bg-muted/30">
-        <div className="container mx-auto px-4 space-y-8">
-          <div className="max-w-2xl space-y-2">
-            <h2 className="font-serif text-3xl">Interior services for your space</h2>
-            <p className="text-muted-foreground">We begin with how you use the space, then shape the layout, materials, lighting, and details around it.</p>
-          </div>
-          <div className="grid gap-5 md:grid-cols-3">
-            {services.map((service) => (
-              <div className="card p-6" key={service.title}>
-                <h3 className="font-serif text-xl mb-2">{service.title}</h3>
-                <p className="text-sm text-muted-foreground">{service.description}</p>
-              </div>
-            ))}
-          </div>
+      <section className="content-section">
+        <div className="section-heading"><p className="eyebrow">What we do</p><h2>Interior services for your space</h2><p>{intro}</p></div>
+        <div className="card-grid">
+          {services.map(service => (
+            <article className="info-card" key={service.title}>
+              <h3>{service.title}</h3>
+              <p>{service.description}</p>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section className="section">
-        <div className="container mx-auto px-4 grid gap-8 md:grid-cols-2">
-          <div className="space-y-3">
-            <h2 className="font-serif text-3xl">How the process works</h2>
-            <ol className="space-y-3 text-muted-foreground">
-              <li><strong className="text-foreground">1. Consultation:</strong> Tell us about the space, your priorities, style, and budget.</li>
-              <li><strong className="text-foreground">2. Design direction:</strong> We develop a practical layout and a clear visual direction.</li>
-              <li><strong className="text-foreground">3. Details and execution:</strong> Materials, finishes, and site work are coordinated around the approved plan.</li>
-            </ol>
+      <section className="content-section split">
+        <div>
+          <p className="eyebrow">Process</p>
+          <h2>How the process works</h2>
+          <div className="principles">
+            <article><strong>01</strong><h3>Consultation</h3><p>Tell us about the space, your priorities, style, and budget.</p></article>
+            <article><strong>02</strong><h3>Design direction</h3><p>We develop a practical layout and a clear visual direction.</p></article>
+            <article><strong>03</strong><h3>Details and execution</h3><p>Materials, finishes, and site work are coordinated around the approved plan.</p></article>
           </div>
-          <div className="card p-6 space-y-4">
-            <h2 className="font-serif text-2xl">Planning a project in {area}?</h2>
-            <p className="text-muted-foreground">Share your floor plan, a few photos, and what you want to change. We&apos;ll help you decide the right next step.</p>
-            <Link href="/contact"><Button className="w-full sm:w-auto">Get a project consultation</Button></Link>
-          </div>
+        </div>
+        <div className="info-card area-closing" data-cta-location="area_closing">
+          <h2>Planning a project in {area}?</h2>
+          <p>Share your floor plan, a few photos, and what you want to change. We&apos;ll help you decide the right next step.</p>
+          <div className="button-row"><a className="button button-whatsapp" data-cta="area-closing-whatsapp" href={whatsappHref} target="_blank" rel="noreferrer"><WhatsAppIcon />WhatsApp us</a></div>
+          <p className="area-alt-link"><Link className="text-link" href="/contact">or book a consultation</Link></p>
         </div>
       </section>
     </main></>

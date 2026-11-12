@@ -338,3 +338,17 @@ td:before{content:attr(data-label);font-size:.7rem;text-transform:uppercase;lett
 @media(max-width:800px){.calculator{grid-template-columns:1fr}
 .calculator-result{position:static}
 }
+
+/* /areas/* landing pages: location headline + homepage proof */
+.area-hero h1{font-size:clamp(2.6rem,5.2vw,4.6rem);max-width:13ch;margin-bottom:.9rem}
+.area-trust{margin:1rem 0 1.4rem;font-size:.9rem;font-weight:700;color:var(--ink)}
+.area-hero .button-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;max-width:440px}
+.area-hero .button{gap:.45rem;white-space:nowrap}
+@media(max-width:400px){.area-hero .button-row{gap:.5rem}.area-hero .button{padding-inline:.5rem;font-size:.95rem;gap:.35rem}}
+@media(max-width:340px){.area-hero .button{font-size:.88rem}}
+.area-alt-link{margin:.9rem 0 0;font-size:.92rem}
+.area-closing{gap:.9rem}
+.area-closing h2{font-size:1.8rem;margin:0}
+.area-closing p{margin:0}
+.area-studio .info-card p{margin:0 0 .5rem}
+@media(max-width:640px){.area-hero{padding-top:28px;gap:24px}.area-studio,.area-studio+section+.split{gap:28px}.area-hero h1{font-size:2.5rem}.area-hero .lead{font-size:1rem}.area-trust{margin:.75rem 0 1rem}}

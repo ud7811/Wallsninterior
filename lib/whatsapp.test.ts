@@ -8,7 +8,7 @@
  * Run: pnpm test
  */
 import assert from "node:assert/strict"
-import { buildWhatsAppLink, subjectForPath, messageForPath } from "./whatsapp"
+import { buildWhatsAppLink, subjectForPath, messageForPath, areaDesignerMessage } from "./whatsapp"
 
 const FALLBACK = "Hi Walls N Interior, I'd like a quote."
 
@@ -58,5 +58,11 @@ const href = buildWhatsAppLink({ number: "917428095297", text: messageForPath("/
 assert.ok(href.startsWith("https://wa.me/917428095297?text="))
 assert.ok(!href.includes(" "), "spaces must be percent-encoded or WhatsApp truncates the message")
 assert.ok(decodeURIComponent(href.split("text=")[1]).includes("wardrobes"))
+
+// --- area landing pages (paid traffic) ----------------------------------------
+assert.equal(
+  decodeURIComponent(buildWhatsAppLink({ number: "917428095297", text: areaDesignerMessage("Greater Noida") }).split("text=")[1]),
+  "Hi Walls N Interior, I'm looking for an interior designer in Greater Noida.",
+)
 
 console.log("whatsapp: all assertions passed")
